@@ -66,10 +66,10 @@
 
         /* --- DASHBOARD VIEW --- */
         #dashboard-view { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        
-        .header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; gap: 1rem; }
-        .header-logo img { height: clamp(50px, 8vw, 100px); max-width: 100%; object-fit: contain; }
-        .header-title { font-size: clamp(1.2rem, 4vw, 1.8rem); color: var(--primary); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .header-logo img { height: clamp(80px, 12vw, 150px); max-width: 100%; object-fit: contain; }
+        .header-bottom { display: flex; justify-content: center; margin-bottom: 2.5rem; }
+        .header-title { font-size: clamp(1.5rem, 5vw, 2.2rem); color: var(--primary); margin: 0; display: flex; align-items: center; gap: 10px; }
         .header-profile-container { position: relative; }
         .header-profile { display: flex; align-items: center; gap: 10px; font-weight: 500; color: var(--text-muted); background: white; padding: 0.5rem 1rem; border-radius: 50px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
         .header-profile:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.06); color: var(--primary); }
@@ -167,20 +167,25 @@
 
     <!-- 2. DASHBOARD VIEW -->
     <div id="dashboard-view">
-        <div class="header">
+        <div class="header-top">
             <div class="header-logo">
-                <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat">
+                <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="Keyown Habitat">
             </div>
-            <h1 class="header-title"><i class="ph ph-paper-plane-tilt"></i> Campaign Center</h1>
+            
             <div class="header-profile-container">
                 <div class="header-profile" onclick="document.getElementById('profile-menu').classList.toggle('active')">
-                    <span>HR Admin</span>
-                    <i class="ph ph-user-circle"></i>
+                    HR Admin <i class="ph ph-user-circle"></i>
                 </div>
                 <div class="profile-dropdown" id="profile-menu">
                     <button onclick="logout()"><i class="ph ph-sign-out"></i> Logout</button>
                 </div>
             </div>
+        </div>
+        
+        <div class="header-bottom">
+            <h1 class="header-title">
+                <i class="ph ph-paper-plane-tilt"></i> Campaign Center
+            </h1>
         </div>
         
         <div class="dashboard-grid">
