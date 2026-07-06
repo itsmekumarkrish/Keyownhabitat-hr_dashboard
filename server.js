@@ -36,6 +36,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
+// Clean route for the HR Dashboard
+app.get('/hrdashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'hrdashboard', 'index.html'));
+});
+
 // Configure Multer for resume + photo uploads
 const upload = multer({ dest: 'uploads/' });
 
