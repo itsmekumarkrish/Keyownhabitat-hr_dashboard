@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Careers | KeyOwn Habitat</title>
+    <meta name="description" content="Join the KeyOwn Habitat team and build the future of home ownership.">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+    <link rel="apple-touch-icon" href="favicon-192x192.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css?v=37">
+
+    <!-- Google Jobs AI Schema Integration -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "JobPosting",
+      "title": "Relationship Manager (RM)",
+      "description": "<p>Build relationships with prospective customers, understand their housing goals, conduct the initial financial assessment, and guide them through the homeownership journey.</p><p><strong>Requirements:</strong></p><ul><li>Excellent communication and customer handling skills.</li><li>Sales orientation with CRM knowledge.</li><li>Negotiation skills.</li></ul>",
+      "identifier": {
+        "@type": "PropertyValue",
+        "name": "KeyOwn Habitat",
+        "value": "RM-2026-01"
+      },
+      "datePosted": "2026-07-06",
+      "validThrough": "2026-12-31T00:00",
+      "employmentType": "FULL_TIME",
+      "hiringOrganization": {
+        "@type": "Organization",
+        "name": "KeyOwn Habitat",
+        "sameAs": "https://www.keyownhabitat.com",
+        "logo": "https://www.keyownhabitat.com/favicon-192x192.png"
+      },
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "KeyOwn Habitat Office",
+          "addressLocality": "Bangalore",
+          "addressRegion": "KA",
+          "postalCode": "560001",
+          "addressCountry": "IN"
+        }
+      },
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": "INR",
+        "value": {
+          "@type": "QuantitativeValue",
+          "minValue": 300000,
+          "maxValue": 600000,
+          "unitText": "YEAR"
+        }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "JobPosting",
+      "title": "Business Development Manager",
+      "description": "<p>The BDM drives the growth of KeyOwn Habitat by establishing strategic partnerships and expanding our market footprint.</p><p><strong>Requirements:</strong></p><ul><li>1–3 years of experience in Business Development, preferably in PropTech or FinTech.</li><li>Strong presentation skills and the ability to influence key stakeholders.</li><li>Goal-oriented, aggressive sales approach with a track record of meeting targets.</li></ul>",
+      "identifier": {
+        "@type": "PropertyValue",
+        "name": "KeyOwn Habitat",
+        "value": "BDM-2026-01"
+      },
+      "datePosted": "2026-07-06",
+      "validThrough": "2026-12-31T00:00",
+      "employmentType": "FULL_TIME",
+      "hiringOrganization": {
+        "@type": "Organization",
+        "name": "KeyOwn Habitat",
+        "sameAs": "https://www.keyownhabitat.com",
+        "logo": "https://www.keyownhabitat.com/favicon-192x192.png"
+      },
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "KeyOwn Habitat Office",
+          "addressLocality": "Bangalore",
+          "addressRegion": "KA",
+          "postalCode": "560001",
+          "addressCountry": "IN"
+        }
+      }
+    }
+    </script>
+    
+    <style>
+        /* Seamless Conversational UI */
+        body {
+            background-color: var(--bg-dark, #F2F0EB);
+            position: relative;
+        }
+
+        .seamless-section {
+            padding-top: 180px;
+            padding-bottom: 100px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Floating Jobs View */
+        #job-selection-view {
+            width: 100%;
+            max-width: 1000px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #job-selection-view.fade-out {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .floating-jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            padding: 1rem;
+        }
+
+        .floating-job {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 98, 65, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-job::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent-indigo, #006241), var(--accent-teal, #1E3932));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .floating-job:hover {
+            transform: translateY(-10px);
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0, 98, 65, 0.08);
+        }
+
+        .floating-job:hover::before {
+            opacity: 1;
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 98, 65, 0.05);
+            color: var(--accent-indigo, #006241);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+            transition: all 0.3s;
+        }
+
+        .floating-job:hover .icon-circle {
+            background: var(--accent-indigo, #006241);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .floating-job h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-indigo, #006241);
+            font-size: 1.15rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .floating-job p {
+            color: var(--text-muted, #6C736A);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Seamless Chat View */
+        #seamless-chat-view {
+            width: 100%;
+            max-width: 800px;
+            display: none;
+            opacity: 0;
+            flex-direction: column;
+            padding: 0 1rem;
+        }
+
+        #seamless-chat-view.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .chat-header-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 98, 65, 0.1);
+        }
+
+        .jd-accordion {
+            background: rgba(0, 98, 65, 0.03);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 98, 65, 0.08);
+            cursor: pointer;
+        }
+
+        .jd-accordion summary {
+            font-weight: 600;
+            color: var(--accent-indigo);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .jd-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .jd-content {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 98, 65, 0.1);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .jd-content ul {
+            margin-top: 0.5rem;
+            padding-left: 1.2rem;
+        }
+
+        .jd-content li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Success Modal */
+        #success-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        #success-modal.show {
+            display: flex;
+        }
+        .modal-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.7); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #006241, #00a86b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: #fff;
+        }
+        .modal-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #006241;
+            margin-bottom: 0.75rem;
+        }
+        .modal-card p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 0.5rem;
+        }
+        .modal-card .modal-role {
+            display: inline-block;
+            background: rgba(0,98,65,0.08);
+            color: #006241;
+            font-weight: 600;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0.75rem 0 1.5rem;
+        }
+        .modal-close-btn {
+            background: linear-gradient(135deg, #006241, #00a86b);
+            color: #fff;
+            border: none;
+            padding: 0.85rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .modal-close-btn:hover { opacity: 0.9; }
+        .application-form-container {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0, 98, 65, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: #fbfbfb;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-indigo);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 98, 65, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .file-upload-group input[type="file"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px dashed rgba(0,0,0,0.2);
+            border-radius: 8px;
+            background: rgba(0, 98, 65, 0.02);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-submit-app {
+            background: var(--accent-indigo);
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 100px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-submit-app:hover {
+            background: #004d33;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 98, 65, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        .jd-accordion {
+            background: rgba(0, 98, 65, 0.03);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 98, 65, 0.08);
+            overflow: hidden;
+        }
+
+        .jd-accordion summary {
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-indigo, #006241);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .jd-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .jd-accordion summary::before {
+            content: '\25B6';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .jd-accordion[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .jd-content {
+            padding: 0 1.2rem 1.2rem 1.2rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted, #6C736A);
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-indigo, #006241);
+        }
+
+        .role-badge {
+            background: rgba(203, 162, 88, 0.15); /* Gold tint */
+            color: #a8813c;
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat Logo" class="custom-logo">
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="careers.html" class="nav-careers-btn"><i class="ph ph-briefcase"></i> Careers</a>
+                <a href="index.html#contact" class="btn btn-primary">Get Your Strategy <i class="ph ph-lightning"></i></a>
+                <a href="https://wa.me/919886535949?text=Hi,%20I%20want%20to%20know%20more%20about%20KeyOwn%20Habitat%20Home%20Ownership%20Advisory%20System." class="whatsapp-btn nav-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
+                    <i class="ph ph-whatsapp-logo"></i>
+                </a>
+            </div>
+            <div class="mobile-nav-actions">
+                <a href="careers.html" class="careers-header-fab" aria-label="View Careers">
+                    <i class="ph ph-briefcase"></i>
+                </a>
+                <button class="hamburger" aria-label="Toggle Mobile Menu" onclick="document.body.classList.toggle('menu-open')">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seamless Section -->
+    <section class="seamless-section">
+        <div class="container" style="display:flex; justify-content:center; width: 100%;">
+            
+            <!-- VIEW 1: Job Selection -->
+            <div id="job-selection-view">
+                <div class="text-center" style="margin-bottom: 4rem;">
+                    <div class="badge mx-auto" style="margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo); padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="ph ph-sparkle"></i> Shape the Future of Real Estate
+                    </div>
+                    <h1 class="headline">Join Our <span class="text-gradient">Team</span></h1>
+                    <p style="color: var(--text-main); max-width: 700px; margin: 1.5rem auto 1rem; font-size: 1.15rem; line-height: 1.7; font-weight: 500;">
+                        We are on a mission to transition tenants into homeowners. Build your career with India's first structured pathway from rent to asset legacy.
+                    </p>
+                    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1rem; line-height: 1.6;">
+                        Select a role below to view details and submit your application.
+                    </p>
+                </div>
+
+                <div class="floating-jobs-grid">
+                    <div class="floating-job" onclick="startSeamlessInterview('Relationship Manager (RM)')">
+                        <div class="icon-circle"><i class="ph ph-handshake"></i></div>
+                        <h3>Relationship Manager</h3>
+                        <p>1-3 years exp • Bengaluru</p>
+                    </div>
+                    
+                    <div class="floating-job" onclick="startSeamlessInterview('Business Development Manager')">
+                        <div class="icon-circle"><i class="ph ph-trend-up"></i></div>
+                        <h3>Business Development Manager</h3>
+                        <p>1-3 years exp • Bengaluru</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Field Executive')">
+                        <div class="icon-circle"><i class="ph ph-motorcycle"></i></div>
+                        <h3>Field Executive</h3>
+                        <p>0-2 years exp • Field Work</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Manager')">
+                        <div class="icon-circle"><i class="ph ph-users"></i></div>
+                        <h3>Manager</h3>
+                        <p>1-6 years exp (MBA) • Leadership</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Team Leader')">
+                        <div class="icon-circle"><i class="ph ph-chart-line-up"></i></div>
+                        <h3>Team Leader</h3>
+                        <p>2-5 years exp • Team Handling</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Operations Executive')">
+                        <div class="icon-circle"><i class="ph ph-gear"></i></div>
+                        <h3>Operations Executive</h3>
+                        <p>1-3 years exp • Backend & Process</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('HR Executive')">
+                        <div class="icon-circle"><i class="ph ph-users-three"></i></div>
+                        <h3>HR Executive</h3>
+                        <p>1-4 years exp • Recruitment & Engagement</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Marketing Specialist')">
+                        <div class="icon-circle"><i class="ph ph-megaphone"></i></div>
+                        <h3>Marketing Specialist</h3>
+                        <p>2-4 years exp • Social Media & Campaigns</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Real Estate Advisor')">
+                        <div class="icon-circle"><i class="ph ph-buildings"></i></div>
+                        <h3>Real Estate Advisor</h3>
+                        <p>2-5 years exp • Client Consultation</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Customer Success Manager')">
+                        <div class="icon-circle"><i class="ph ph-smiley"></i></div>
+                        <h3>Customer Success</h3>
+                        <p>3-6 years exp • Tenant Onboarding</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Finance Executive')">
+                        <div class="icon-circle"><i class="ph ph-coins"></i></div>
+                        <h3>Finance Executive</h3>
+                        <p>2-5 years exp • Modeling & Accounts</p>
+                    </div>
+
+                    <div class="floating-job" onclick="startSeamlessInterview('Legal & Compliance Officer')">
+                        <div class="icon-circle"><i class="ph ph-scales"></i></div>
+                        <h3>Legal & Compliance</h3>
+                        <p>3-7 years exp • Property Verification</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: Application Form -->
+            <div id="seamless-chat-view" style="display:none; width: 100%; max-width: 800px;">
+                <div class="chat-header-inline" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <button type="button" onclick="backToJobs(event)" class="back-btn"><i class="ph ph-arrow-left"></i> Back to Roles</button>
+                    <div class="role-badge"><i class="ph ph-briefcase"></i> <span id="current-role-badge">Role</span></div>
+                </div>
+                
+                <details class="jd-accordion" id="jd-accordion">
+                    <summary><i class="ph ph-info"></i> View Job Description & Requirements</summary>
+                    <div class="jd-content" id="jd-content">
+                        <!-- JD text goes here -->
+                    </div>
+                </details>
+
+                <div class="application-form-container">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--accent-indigo);">Apply for <span id="form-role-title"></span></h3>
+                    <form id="job-application-form" onsubmit="submitApplication(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name *</label>
+                                <input type="text" id="app-fname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name *</label>
+                                <input type="text" id="app-lname" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" id="app-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile Number *</label>
+                                <input type="tel" id="app-phone" required pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Location / City *</label>
+                            <input type="text" id="app-location" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Short Introduction (Additional Information)</label>
+                            <textarea id="app-intro" rows="4" placeholder="Tell us a little bit about yourself and why you're a good fit..."></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group file-upload-group">
+                                <label>Upload Resume *</label>
+                                <input type="file" id="app-resume" accept=".pdf,.doc,.docx" required>
+                            </div>
+                            <div class="form-group file-upload-group">
+                                <label>Upload Photo (Optional)</label>
+                                <input type="file" id="app-photo" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1.5rem; display: flex; gap: 0.8rem; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <input type="checkbox" id="app-consent" required style="width: 18px; height: 18px; margin-top: 0.2rem; cursor: pointer; flex-shrink: 0;">
+                            <label for="app-consent" style="font-weight: 400; font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5; cursor: pointer;">
+                                I consent to the processing of my personal data by KeyOwn Habitat for recruitment purposes. I understand that my information will be securely handled in accordance with the company's Privacy Policy.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-submit-app">Submit Application <i class="ph ph-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+        <!-- Success Modal -->
+        <div id="success-modal">
+            <div class="modal-card">
+                <div class="modal-icon"><i class="ph ph-check-fat"></i></div>
+                <h2>Application Submitted!</h2>
+                <p>Thank you for applying to <strong>KeyOwn Habitat</strong>. We have received your application for:</p>
+                <span class="modal-role" id="modal-role-name"></span>
+                <p>A confirmation email has been sent to your inbox. Our HR team will review your profile and get in touch with you shortly.</p>
+                <button class="modal-close-btn" onclick="closeSuccessModal()">Back to Roles &nbsp;<i class="ph ph-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat Logo" class="footer-logo" style="filter: brightness(0) invert(1); mix-blend-mode: normal;">
+                </div>
+                <p class="brand-desc">Building wealth bridges for the modern renter. The first structured pathway from rent to asset legacy.</p>
+                <div class="footer-contact-info">
+                    <span class="footer-address"><i class="ph ph-map-pin" style="margin-top: 3px; flex-shrink: 0;"></i> No 544, 3rd floor, A block, ACES Layout, Near Hospectic Hospital, Singasandra, Bangalore - 560068</span>
+                    <a href="https://www.keyownhabitat.com" target="_blank"><i class="ph ph-globe"></i> www.keyownhabitat.com</a>
+                    <a href="mailto:hello@keyownhabitat.com"><i class="ph ph-envelope"></i> hello@keyownhabitat.com</a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="links-column">
+                    <h4>Quick Links</h4>
+                    <a href="terms.html">Terms & Conditions</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="careers.html">Careers</a>
+                </div>
+                <div class="links-column">
+                    <h4>More</h4>
+                    <a href="index.html#about">About HOAS</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Widgets -->
+
+    <!-- Interactive Logic -->
+    <script>
+    // v8 - simplified view switching
+    let currentRole = "";
+
+        const roleJDs = {
+            "Relationship Manager (RM)": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> As a Relationship Manager, you will be the face of KeyOwn Habitat, guiding our clients through the revolutionary rent-to-own process.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Build and nurture long-term relationships with prospective home buyers.</li>
+                            <li>Explain the HOAS financial framework and transition roadmap to clients clearly.</li>
+                            <li>Coordinate and conduct property site visits, answering client queries on the spot.</li>
+                            <li>Work closely with the sales and finance teams to ensure seamless client onboarding.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-3 years of proven experience in Sales, Real Estate, or Financial Advisory.</li>
+                            <li>Exceptional communication, negotiation, and interpersonal skills.</li>
+                            <li>A customer-first mindset with a passion for helping people achieve homeownership.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Business Development Manager": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> The BDM drives the growth of KeyOwn Habitat by establishing strategic partnerships and expanding our market footprint.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Identify and pursue new business opportunities, channel partners, and B2B collaborations.</li>
+                            <li>Manage the end-to-end sales pipeline, from lead generation to deal closure.</li>
+                            <li>Analyze market trends and competitor strategies to position HOAS effectively.</li>
+                            <li>Pitch the KeyOwn Habitat value proposition to builders and developers.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-3 years of experience in Business Development, preferably in PropTech or FinTech.</li>
+                            <li>Strong presentation skills and the ability to influence key stakeholders.</li>
+                            <li>Goal-oriented, aggressive sales approach with a track record of meeting targets.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Field Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Field Executives are our on-ground operators ensuring property verifications and client site visits happen flawlessly.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Travel to various property sites across the city for inspections and client meetings.</li>
+                            <li>Assist Relationship Managers in conducting physical property showcases.</li>
+                            <li>Collect and verify physical KYC and property documents from clients and builders.</li>
+                            <li>Report daily field activities and property statuses to the operations team.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>0-2 years of field experience (freshers welcome).</li>
+                            <li><b>Must possess a valid two-wheeler driving license and own a two-wheeler.</b></li>
+                            <li>Willingness to travel extensively within the city limits daily.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Manager": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> The Manager oversees daily departmental workflows, ensuring operational excellence and strategic alignment.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Lead, supervise, and mentor cross-functional teams to achieve business objectives.</li>
+                            <li>Optimize daily operations and streamline processes for maximum efficiency.</li>
+                            <li>Monitor performance metrics and generate actionable reports for upper management.</li>
+                            <li>Resolve complex client or operational escalations efficiently.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-6 years of managerial experience (MBA highly preferred).</li>
+                            <li>Strong leadership capabilities and conflict resolution skills.</li>
+                            <li>Strategic thinker with a data-driven approach to problem-solving.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Team Leader": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> As a Team Leader, you will manage a squad of executives, ensuring they hit their targets and maintain high morale.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Mentor, train, and guide a team of Relationship Managers and Field Executives.</li>
+                            <li>Assign daily tasks, monitor KPIs, and ensure monthly team targets are achieved.</li>
+                            <li>Conduct regular feedback sessions and performance appraisals.</li>
+                            <li>Act as the first point of escalation for client issues faced by the team.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-5 years of experience specifically in Team Handling and Sales/Operations.</li>
+                            <li>Ability to motivate a team and drive results under pressure.</li>
+                            <li>Excellent communication and organizational skills.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Operations Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> The backbone of our platform, ensuring that all backend processes and documentation move swiftly and accurately.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Handle the backend processing of client applications and property agreements.</li>
+                            <li>Maintain accurate CRM records and ensure data hygiene.</li>
+                            <li>Liaise with the finance and legal teams to push files through to completion.</li>
+                            <li>Identify bottlenecks in current processes and suggest operational improvements.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-3 years of experience in back-office operations or administration.</li>
+                            <li>High attention to detail and proficiency in MS Excel / CRM software.</li>
+                            <li>Ability to multitask and handle high volumes of documentation.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "HR Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> You will shape the culture of KeyOwn Habitat by recruiting top talent and ensuring a phenomenal employee experience.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Manage end-to-end recruitment: sourcing, screening, interviewing, and offering.</li>
+                            <li>Facilitate smooth employee onboarding and orientation programs.</li>
+                            <li>Plan and execute employee engagement and culture-building initiatives.</li>
+                            <li>Maintain HR records, manage leaves, and assist in payroll processing.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-4 years of experience in Human Resources (Startup experience is a plus).</li>
+                            <li>Strong empathy, interpersonal skills, and understanding of HR compliance.</li>
+                            <li>Ability to build a positive and inclusive workplace culture.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Marketing Specialist": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Drive brand awareness and client acquisition through creative, high-impact digital marketing campaigns.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Manage KeyOwn Habitat's presence across all social media channels (Instagram, LinkedIn, Facebook).</li>
+                            <li>Design and execute digital ad campaigns to drive high-quality lead generation.</li>
+                            <li>Create compelling content (blogs, ad copy, newsletters) focused on rent-to-own benefits.</li>
+                            <li>Track marketing ROI, analyze campaign metrics, and optimize spend.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-4 years of experience in Digital Marketing or Performance Marketing.</li>
+                            <li>Proficiency in Meta Ads, Google Ads, and basic design tools (Canva/Figma).</li>
+                            <li>Creative mindset with strong copywriting skills.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Real Estate Advisor": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Provide expert consultation to our clients, helping them select the perfect property that aligns with their financial goals.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Conduct in-depth consultations to understand clients' homeownership aspirations.</li>
+                            <li>Assist clients in property selection from our verified inventory.</li>
+                            <li>Perform local market analysis to advise clients on property appreciation and investment value.</li>
+                            <li>Guide clients through the financial nuances of transitioning from rent to EMI.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-5 years of experience in Real Estate Advisory or Property Consulting.</li>
+                            <li>Deep understanding of the local real estate market and pricing trends.</li>
+                            <li>Trustworthy, professional demeanor with excellent advisory skills.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Customer Success Manager": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Ensure every client has a flawless journey from the moment they sign their lease to the day they receive their property deed.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Oversee the complete tenant onboarding process post-agreement.</li>
+                            <li>Act as a dedicated concierge, addressing client queries and concerns proactively.</li>
+                            <li>Ensure timely rent/EMI collections and manage payment schedules.</li>
+                            <li>Drive long-term customer satisfaction, retention, and referral programs.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>3-6 years of experience in Customer Success, Account Management, or Client Servicing.</li>
+                            <li>High emotional intelligence, patience, and problem-solving abilities.</li>
+                            <li>Ability to handle high-value clients and complex escalations.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Finance Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Manage the financial backbone of the HOAS model, tracking the complex flow of rent, equity, and asset investments.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Handle rent-to-own financial modeling and client equity calculations.</li>
+                            <li>Track incoming payments, manage invoices, and handle general accounting tasks.</li>
+                            <li>Perform monthly ledger reconciliation and audit preparations.</li>
+                            <li>Assist in processing developer payouts and banking compliance.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-5 years of experience in Finance, Accounting, or FinTech operations.</li>
+                            <li>Strong proficiency in Tally/QuickBooks and advanced Excel modeling.</li>
+                            <li>Keen eye for detail and uncompromising ethics regarding financial data.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Legal & Compliance Officer": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Protect the company and our clients by ensuring every property transaction and agreement is legally sound and compliant.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Conduct rigorous legal verification and due diligence of all properties.</li>
+                            <li>Draft, review, and finalize Lease-to-Own agreements, NDAs, and developer contracts.</li>
+                            <li>Ensure strict regulatory compliance with RERA and local real estate laws.</li>
+                            <li>Handle dispute resolution and provide legal counsel to the management team.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>3-7 years of experience as Legal Counsel, specifically in Real Estate or Property Law.</li>
+                            <li>LLB degree and active bar council registration.</li>
+                            <li>Exceptional drafting skills and deep knowledge of RERA and property registration.</li>
+                        </ul>
+                    </div>
+                </div>`
+        };
+
+        function startSeamlessInterview(roleName) {
+            currentRole = roleName;
+            document.getElementById('current-role-badge').textContent = roleName;
+            document.getElementById('form-role-title').textContent = roleName;
+            
+            // Populate Job Description
+            document.getElementById('jd-content').innerHTML = roleJDs[roleName] || "Details available upon request.";
+            document.getElementById('jd-accordion').removeAttribute('open');
+            
+            // Reset form
+            document.getElementById('job-application-form').reset();
+            
+            // SIMPLE: hide job grid, show form
+            document.getElementById('job-selection-view').style.display = 'none';
+            document.getElementById('seamless-chat-view').style.display = 'block';
+            document.getElementById('seamless-chat-view').style.opacity = '1';
+            
+            // Scroll to top
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
+            
+            const btn = event.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Submitting...';
+            btn.disabled = true;
+
+            const fnameVal = document.getElementById('app-fname').value.trim();
+            const lnameVal = document.getElementById('app-lname').value.trim();
+
+            if (fnameVal.length < 3 || lnameVal.length < 3) {
+                showErrorModal('Both First Name and Last Name must be at least 3 characters long.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const phoneVal = document.getElementById('app-phone').value.trim();
+            if (!/^[0-9]{10}$/.test(phoneVal)) {
+                showErrorModal('Please enter a valid 10-digit mobile number.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const emailVal = document.getElementById('app-email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailVal)) {
+                showErrorModal('Please enter a valid email address.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            // Smart typo catcher for common domains
+            const domain = emailVal.split('@')[1].toLowerCase();
+            const commonTypos = {
+                'gmil.com': 'gmail.com',
+                'gmal.com': 'gmail.com',
+                'gmaill.com': 'gmail.com',
+                'gmial.com': 'gmail.com',
+                'yaho.com': 'yahoo.com',
+                'yahooo.com': 'yahoo.com',
+                'hotmil.com': 'hotmail.com',
+                'hotmial.com': 'hotmail.com',
+                'outlok.com': 'outlook.com'
+            };
+
+            if (commonTypos[domain]) {
+                showErrorModal(`Did you mean @${commonTypos[domain]}? Please check your email address.`);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            // Build FormData from all fields
+            const formData = new FormData();
+            formData.append('firstName', document.getElementById('app-fname').value.trim());
+            formData.append('lastName',  document.getElementById('app-lname').value.trim());
+            formData.append('email',     document.getElementById('app-email').value.trim());
+            formData.append('phone',     phoneVal);
+            formData.append('location',  document.getElementById('app-location').value.trim());
+            formData.append('intro',     document.getElementById('app-intro').value.trim());
+            formData.append('role',      currentRole);
+
+            const resumeInput = document.getElementById('app-resume');
+            if (!resumeInput.files || resumeInput.files.length === 0) {
+                showErrorModal('Please upload your resume.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const photoInput  = document.getElementById('app-photo');
+            if (photoInput.files && photoInput.files.length > 0) {
+                if (photoInput.files[0].size > 2 * 1024 * 1024) {
+                    showErrorModal('Photo size must be under 2MB.');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+                formData.append('photo',  photoInput.files[0]);
+            }
+
+            formData.append('resume', resumeInput.files[0]);
+
+            const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+                ? '/api/apply' 
+                : 'https://3d62c006e16d45.lhr.life/api/apply';
+
+            fetch(apiUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    btn.innerHTML = '<i class="ph ph-check-circle"></i> Submitted!';
+                    btn.style.background = '#00a86b';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                        showSuccessModal(currentRole);
+                    }, 800);
+                } else {
+                    throw new Error(data.error || 'Submission failed.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showErrorModal(err.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        function showSuccessModal(role) {
+            document.getElementById('modal-role-name').textContent = role;
+            document.getElementById('success-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.remove('show');
+            document.body.style.overflow = '';
+            backToJobs();
+        }
+
+        function showErrorModal(message) {
+            // Simple inline error — replace with a modal if needed
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#ff4444;color:#fff;padding:1rem 2rem;border-radius:12px;z-index:9999;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,0.2);';
+            errDiv.textContent = '❌ ' + message + ' — Please try again or email hr@keyownhabitat.com';
+            document.body.appendChild(errDiv);
+            setTimeout(() => errDiv.remove(), 5000);
+        }
+
+        window.addEventListener('popstate', (event) => {
+            // When browser back is clicked, hash changes away from #apply
+            if (window.location.hash !== '#apply') {
+                const seamlessView = document.getElementById('seamless-chat-view');
+                if (seamlessView && seamlessView.classList.contains('active')) {
+                    executeBackToJobsVisuals();
+                }
+            }
+        });
+
+        function backToJobs(event) {
+            if (event) event.preventDefault();
+            executeBackToJobsVisuals();
+        }
+        
+        function executeBackToJobsVisuals() {
+            // SIMPLE: hide form, show job grid
+            document.getElementById('seamless-chat-view').style.display = 'none';
+            document.getElementById('seamless-chat-view').style.opacity = '0';
+            document.getElementById('seamless-chat-view').classList.remove('active');
+            
+            document.getElementById('job-selection-view').style.display = 'block';
+            document.getElementById('job-selection-view').style.opacity = '1';
+            document.getElementById('job-selection-view').style.pointerEvents = 'auto';
+            document.getElementById('job-selection-view').style.position = 'relative';
+            document.getElementById('job-selection-view').classList.remove('fade-out');
+            
+            // Scroll to top
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+        
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

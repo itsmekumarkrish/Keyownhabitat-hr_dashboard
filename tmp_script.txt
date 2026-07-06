@@ -1,0 +1,346 @@
+    <!-- Interactive Logic -->
+    <script>
+        let currentRole = "";
+
+        const roleJDs = {
+            "Relationship Manager (RM)": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> As a Relationship Manager, you will be the face of KeyOwn Habitat, guiding our clients through the revolutionary rent-to-own process.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Build and nurture long-term relationships with prospective home buyers.</li>
+                            <li>Explain the HOAS financial framework and transition roadmap to clients clearly.</li>
+                            <li>Coordinate and conduct property site visits, answering client queries on the spot.</li>
+                            <li>Work closely with the sales and finance teams to ensure seamless client onboarding.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-3 years of proven experience in Sales, Real Estate, or Financial Advisory.</li>
+                            <li>Exceptional communication, negotiation, and interpersonal skills.</li>
+                            <li>A customer-first mindset with a passion for helping people achieve homeownership.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Business Development Manager": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> The BDM drives the growth of KeyOwn Habitat by establishing strategic partnerships and expanding our market footprint.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Identify and pursue new business opportunities, channel partners, and B2B collaborations.</li>
+                            <li>Manage the end-to-end sales pipeline, from lead generation to deal closure.</li>
+                            <li>Analyze market trends and competitor strategies to position HOAS effectively.</li>
+                            <li>Pitch the KeyOwn Habitat value proposition to builders and developers.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-3 years of experience in Business Development, preferably in PropTech or FinTech.</li>
+                            <li>Strong presentation skills and the ability to influence key stakeholders.</li>
+                            <li>Goal-oriented, aggressive sales approach with a track record of meeting targets.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Field Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Field Executives are our on-ground operators ensuring property verifications and client site visits happen flawlessly.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Travel to various property sites across the city for inspections and client meetings.</li>
+                            <li>Assist Relationship Managers in conducting physical property showcases.</li>
+                            <li>Collect and verify physical KYC and property documents from clients and builders.</li>
+                            <li>Report daily field activities and property statuses to the operations team.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>0-2 years of field experience (freshers welcome).</li>
+                            <li><b>Must possess a valid two-wheeler driving license and own a two-wheeler.</b></li>
+                            <li>Willingness to travel extensively within the city limits daily.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Manager": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> The Manager oversees daily departmental workflows, ensuring operational excellence and strategic alignment.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Lead, supervise, and mentor cross-functional teams to achieve business objectives.</li>
+                            <li>Optimize daily operations and streamline processes for maximum efficiency.</li>
+                            <li>Monitor performance metrics and generate actionable reports for upper management.</li>
+                            <li>Resolve complex client or operational escalations efficiently.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-6 years of managerial experience (MBA highly preferred).</li>
+                            <li>Strong leadership capabilities and conflict resolution skills.</li>
+                            <li>Strategic thinker with a data-driven approach to problem-solving.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Team Leader": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> As a Team Leader, you will manage a squad of executives, ensuring they hit their targets and maintain high morale.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Mentor, train, and guide a team of Relationship Managers and Field Executives.</li>
+                            <li>Assign daily tasks, monitor KPIs, and ensure monthly team targets are achieved.</li>
+                            <li>Conduct regular feedback sessions and performance appraisals.</li>
+                            <li>Act as the first point of escalation for client issues faced by the team.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-5 years of experience specifically in Team Handling and Sales/Operations.</li>
+                            <li>Ability to motivate a team and drive results under pressure.</li>
+                            <li>Excellent communication and organizational skills.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Operations Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> The backbone of our platform, ensuring that all backend processes and documentation move swiftly and accurately.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Handle the backend processing of client applications and property agreements.</li>
+                            <li>Maintain accurate CRM records and ensure data hygiene.</li>
+                            <li>Liaise with the finance and legal teams to push files through to completion.</li>
+                            <li>Identify bottlenecks in current processes and suggest operational improvements.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-3 years of experience in back-office operations or administration.</li>
+                            <li>High attention to detail and proficiency in MS Excel / CRM software.</li>
+                            <li>Ability to multitask and handle high volumes of documentation.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "HR Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> You will shape the culture of KeyOwn Habitat by recruiting top talent and ensuring a phenomenal employee experience.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Manage end-to-end recruitment: sourcing, screening, interviewing, and offering.</li>
+                            <li>Facilitate smooth employee onboarding and orientation programs.</li>
+                            <li>Plan and execute employee engagement and culture-building initiatives.</li>
+                            <li>Maintain HR records, manage leaves, and assist in payroll processing.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>1-4 years of experience in Human Resources (Startup experience is a plus).</li>
+                            <li>Strong empathy, interpersonal skills, and understanding of HR compliance.</li>
+                            <li>Ability to build a positive and inclusive workplace culture.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Marketing Specialist": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Drive brand awareness and client acquisition through creative, high-impact digital marketing campaigns.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Manage KeyOwn Habitat's presence across all social media channels (Instagram, LinkedIn, Facebook).</li>
+                            <li>Design and execute digital ad campaigns to drive high-quality lead generation.</li>
+                            <li>Create compelling content (blogs, ad copy, newsletters) focused on rent-to-own benefits.</li>
+                            <li>Track marketing ROI, analyze campaign metrics, and optimize spend.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-4 years of experience in Digital Marketing or Performance Marketing.</li>
+                            <li>Proficiency in Meta Ads, Google Ads, and basic design tools (Canva/Figma).</li>
+                            <li>Creative mindset with strong copywriting skills.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Real Estate Advisor": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Provide expert consultation to our clients, helping them select the perfect property that aligns with their financial goals.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Conduct in-depth consultations to understand clients' homeownership aspirations.</li>
+                            <li>Assist clients in property selection from our verified inventory.</li>
+                            <li>Perform local market analysis to advise clients on property appreciation and investment value.</li>
+                            <li>Guide clients through the financial nuances of transitioning from rent to EMI.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-5 years of experience in Real Estate Advisory or Property Consulting.</li>
+                            <li>Deep understanding of the local real estate market and pricing trends.</li>
+                            <li>Trustworthy, professional demeanor with excellent advisory skills.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Customer Success Manager": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Ensure every client has a flawless journey from the moment they sign their lease to the day they receive their property deed.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Oversee the complete tenant onboarding process post-agreement.</li>
+                            <li>Act as a dedicated concierge, addressing client queries and concerns proactively.</li>
+                            <li>Ensure timely rent/EMI collections and manage payment schedules.</li>
+                            <li>Drive long-term customer satisfaction, retention, and referral programs.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>3-6 years of experience in Customer Success, Account Management, or Client Servicing.</li>
+                            <li>High emotional intelligence, patience, and problem-solving abilities.</li>
+                            <li>Ability to handle high-value clients and complex escalations.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Finance Executive": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Manage the financial backbone of the HOAS model, tracking the complex flow of rent, equity, and asset investments.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Handle rent-to-own financial modeling and client equity calculations.</li>
+                            <li>Track incoming payments, manage invoices, and handle general accounting tasks.</li>
+                            <li>Perform monthly ledger reconciliation and audit preparations.</li>
+                            <li>Assist in processing developer payouts and banking compliance.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>2-5 years of experience in Finance, Accounting, or FinTech operations.</li>
+                            <li>Strong proficiency in Tally/QuickBooks and advanced Excel modeling.</li>
+                            <li>Keen eye for detail and uncompromising ethics regarding financial data.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            "Legal & Compliance Officer": `
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                    <div><b>Role Overview:</b> Protect the company and our clients by ensuring every property transaction and agreement is legally sound and compliant.</div>
+                    <div><b>Key Responsibilities:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Conduct rigorous legal verification and due diligence of all properties.</li>
+                            <li>Draft, review, and finalize Lease-to-Own agreements, NDAs, and developer contracts.</li>
+                            <li>Ensure strict regulatory compliance with RERA and local real estate laws.</li>
+                            <li>Handle dispute resolution and provide legal counsel to the management team.</li>
+                        </ul>
+                    </div>
+                    <div><b>Requirements:</b>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>3-7 years of experience as Legal Counsel, specifically in Real Estate or Property Law.</li>
+                            <li>LLB degree and active bar council registration.</li>
+                            <li>Exceptional drafting skills and deep knowledge of RERA and property registration.</li>
+                        </ul>
+                    </div>
+                </div>`
+        };
+
+        function startSeamlessInterview(roleName) {
+            currentRole = roleName;
+            document.getElementById('current-role-badge').textContent = roleName;
+            document.getElementById('form-role-title').textContent = roleName;
+            
+            // Populate Job Description
+            document.getElementById('jd-content').innerHTML = roleJDs[roleName] || "Details available upon request.";
+            document.getElementById('jd-accordion').removeAttribute('open');
+            
+            // Reset form
+            document.getElementById('job-application-form').reset();
+            
+            // Push history state so browser Back Button works perfectly
+            if (window.location.hash !== '#apply') {
+                history.pushState({ view: 'form' }, "", window.location.href.split('#')[0] + "#apply");
+            }
+            
+            // Force scroll to top immediately before transition
+            window.scrollTo(0, 0);
+            
+            // Transition Views
+            document.getElementById('job-selection-view').classList.add('fade-out');
+            
+            setTimeout(() => {
+                document.getElementById('seamless-chat-view').style.display = 'block';
+                document.getElementById('seamless-chat-view').classList.add('active');
+                
+                // Now cleanly scroll to the top of the view
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+            }, 500); // Wait for fade-out
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
+            
+            const btn = event.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Submitting...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert(`Thank you for applying to the ${currentRole} position! We have received your application successfully.`);
+                backToJobs();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        window.addEventListener('popstate', (event) => {
+            // When browser back is clicked, hash changes away from #apply
+            if (window.location.hash !== '#apply') {
+                const seamlessView = document.getElementById('seamless-chat-view');
+                if (seamlessView && seamlessView.classList.contains('active')) {
+                    executeBackToJobsVisuals();
+                }
+            }
+        });
+
+        function backToJobs(event) {
+            if (event) event.preventDefault();
+            
+            // If the URL has #apply, clear it safely without navigating away
+            if (window.location.hash === '#apply') {
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
+            
+            executeBackToJobsVisuals();
+        }
+        
+        function executeBackToJobsVisuals() {
+            document.getElementById('seamless-chat-view').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('seamless-chat-view').classList.remove('active');
+                document.getElementById('seamless-chat-view').style.display = 'none';
+                document.getElementById('seamless-chat-view').style.opacity = '';
+                
+                const jobView = document.getElementById('job-selection-view');
+                jobView.classList.remove('fade-out');
+                // Force visibility in case CSS class fails
+                jobView.style.display = 'block';
+                jobView.style.opacity = '1';
+                jobView.style.pointerEvents = 'auto';
+                jobView.style.position = 'relative';
+                
+                // Ensure page is scrollable and return to top reliably
+                document.body.style.overflow = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                document.getElementById('jd-accordion').removeAttribute('open');
+                
+                // Use a harsh scroll to prevent interruption
+                window.scrollTo(0, 0);
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    // Also aggressively scroll the view into place
+                    document.getElementById('job-selection-view').scrollIntoView({ behavior: 'auto', block: 'start' });
+                }, 50);
+            }, 400);
+        }
+        
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>

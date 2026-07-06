@@ -1,0 +1,7 @@
+node_modules/
+.env
+campaign_logs.json
+test_candidates.csv
+.DS_Store
+*.csv
+uploads/

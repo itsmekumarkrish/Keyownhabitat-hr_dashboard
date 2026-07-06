@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Email Campaign | KeyOwn Habitat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --primary: #006241;
+            --primary-light: #008f5d;
+            --primary-dark: #004d33;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            margin: 0; 
+            min-height: 100vh; 
+            color: var(--text-main);
+            background: linear-gradient(135deg, #f6f8fd 0%, #f1f5f9 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Orbs */
+        .bg-orb { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; }
+        .bg-orb-1 { top: -100px; left: -100px; width: 400px; height: 400px; background: rgba(0, 143, 93, 0.2); }
+        .bg-orb-2 { bottom: -150px; right: -50px; width: 500px; height: 500px; background: rgba(16, 185, 129, 0.15); }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        /* --- LOGIN VIEW --- */
+        #login-view {
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+        .login-box { width: 100%; max-width: 420px; text-align: center; }
+        .login-box img { width: 260px; margin-bottom: 1.5rem; }
+        .login-box h2 { font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary); font-weight: 600; }
+        .pwd-container { position: relative; width: 100%; margin-bottom: 1rem; }
+        .pwd-container input { width: 100%; padding: 1rem 3rem 1rem 1.5rem; border: 2px solid transparent; border-radius: 12px; font-size: 1rem; font-family: inherit; box-sizing: border-box; outline: none; background: rgba(255,255,255,0.9); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); transition: all 0.3s; margin-bottom: 0; }
+        .pwd-container input:focus { border-color: var(--primary); background: white; }
+        .pwd-container .eye-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted); font-size: 1.2rem; transition: color 0.2s; }
+        .pwd-container .eye-icon:hover { color: var(--primary); }
+        
+        .btn { width: 100%; background: var(--primary); color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; font-family: inherit; }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,98,65,0.2); }
+        .btn:disabled { background: var(--text-muted); transform: none; box-shadow: none; cursor: not-allowed; }
+        .error-msg { color: var(--danger); font-size: 0.9rem; margin-bottom: 1rem; display: none; }
+
+        /* --- DASHBOARD VIEW --- */
+        #dashboard-view { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; position: relative; }
+        .header-logo img { height: 100px; }
+        .header-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 1.8rem; color: var(--primary); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .header-profile-container { position: relative; }
+        .header-profile { display: flex; align-items: center; gap: 10px; font-weight: 500; color: var(--text-muted); background: white; padding: 0.5rem 1rem; border-radius: 50px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+        .header-profile:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.06); color: var(--primary); }
+        .header-profile i { font-size: 1.8rem; color: var(--primary-light); }
+        
+        .profile-dropdown { position: absolute; top: 110%; right: 0; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid var(--border); padding: 0.5rem; display: none; min-width: 150px; z-index: 100; }
+        .profile-dropdown.active { display: block; animation: fadeIn 0.2s ease; }
+        .profile-dropdown button { width: 100%; text-align: left; background: transparent; border: none; padding: 0.75rem 1rem; cursor: pointer; border-radius: 8px; color: var(--danger); font-weight: 600; display: flex; align-items: center; gap: 8px; transition: background 0.2s; font-family: inherit; }
+        .profile-dropdown button:hover { background: #fee2e2; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+
+        /* Drag & Drop Zone */
+        .upload-section { display: flex; flex-direction: column; height: 100%; }
+        .drop-zone { flex-grow: 1; border: 2px dashed #cbd5e1; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 3rem 2rem; cursor: pointer; transition: all 0.3s; background: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--primary); background: rgba(0,98,65,0.05); }
+        .drop-zone i { font-size: 3rem; color: var(--primary-light); margin-bottom: 1rem; }
+        .drop-zone h3 { margin: 0 0 0.5rem 0; font-size: 1.2rem; }
+        .drop-zone p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+        .drop-zone input[type="file"] { display: none; }
+        #selected-file-name { margin-top: 1rem; font-weight: 600; color: var(--primary); display: none; }
+
+        .csv-format { font-size: 0.85rem; color: var(--text-muted); background: rgba(255,255,255,0.6); padding: 1rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+
+        /* Analytics Cards */
+        .metrics-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .metric-card { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; border-radius: 16px; background: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,1); box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.3s; }
+        .metric-card:hover { transform: translateY(-3px); }
+        .metric-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; color: white; }
+        .metric-icon.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .metric-icon.green { background: linear-gradient(135deg, #10b981, #059669); }
+        .metric-icon.red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .metric-info h4 { margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-info .value { margin: 0; font-size: 2rem; font-weight: 700; color: var(--text-main); }
+
+        /* Live Progress Section */
+        .live-section { margin-top: 2rem; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem; }
+        .progress-bar { width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-light), var(--primary)); width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(0,98,65,0.4); }
+        
+        .log-box { max-height: 250px; overflow-y: auto; font-size: 0.85rem; color: #334155; font-family: 'Courier New', Courier, monospace; background: #ffffff; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .log-box div { padding: 4px 0; border-bottom: 1px dashed #f1f5f9; }
+        .log-box div:last-child { border-bottom: none; }
+        
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Campaign History Section */
+        .history-section { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(0,0,0,0.05); }
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+        .history-title { font-size: 1.5rem; color: var(--primary); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .history-controls { display: flex; gap: 1rem; align-items: center; }
+        
+        .search-box { position: relative; }
+        .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .search-box input { padding: 0.6rem 1rem 0.6rem 2.2rem; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; width: 250px; transition: border-color 0.3s; font-family: inherit; }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,98,65,0.1); }
+        
+        .download-btn { background: white; border: 1px solid #cbd5e1; padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 500; transition: all 0.2s; font-family: inherit; }
+        .download-btn:hover { background: #f8fafc; border-color: var(--primary); color: var(--primary); }
+        .download-date { padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; outline: none; }
+        
+        .table-container { overflow-x: auto; background: white; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #f1f5f9; }
+        th { background: #f8fafc; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #f8fafc; }
+        .status-badge { padding: 4px 10px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
+        .status-Sent { background: #dcfce7; color: #166534; }
+        .status-Failed { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+
+    <!-- 1. LOGIN VIEW -->
+    <div id="login-view">
+        <div class="glass-card login-box">
+            <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat">
+            <h2>HR Portal</h2>
+            <div class="error-msg" id="login-err">Incorrect password. Please try again.</div>
+            <div class="pwd-container">
+                <input type="password" id="admin-pwd" placeholder="Enter Master Password..." onkeypress="if(event.key==='Enter') login()">
+                <i class="ph ph-eye eye-icon" id="toggle-pwd" onclick="togglePassword()"></i>
+            </div>
+            <button class="btn" onclick="login()">Access Dashboard <i class="ph ph-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- 2. DASHBOARD VIEW -->
+    <div id="dashboard-view">
+        <div class="header">
+            <div class="header-logo">
+                <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat">
+            </div>
+            <h1 class="header-title"><i class="ph ph-paper-plane-tilt"></i> Campaign Center</h1>
+            <div class="header-profile-container">
+                <div class="header-profile" onclick="document.getElementById('profile-menu').classList.toggle('active')">
+                    <span>HR Admin</span>
+                    <i class="ph ph-user-circle"></i>
+                </div>
+                <div class="profile-dropdown" id="profile-menu">
+                    <button onclick="logout()"><i class="ph ph-sign-out"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- Left: Upload -->
+            <div class="glass-card upload-section">
+                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('csv-file').click()">
+                    <i class="ph ph-cloud-arrow-up"></i>
+                    <h3>Upload Candidate List</h3>
+                    <p>Drag & drop your CSV file here, or click to browse</p>
+                    <div id="selected-file-name"></div>
+                    <input type="file" id="csv-file" accept=".csv" onchange="handleFileSelect()">
+                </div>
+                
+                <div class="csv-format">
+                    <strong><i class="ph ph-info"></i> Required Columns:</strong> Name, Email, Role<br>
+                    <em>Example: John Doe | john@example.com | Relationship Manager</em>
+                </div>
+                
+                <button class="btn" id="send-btn" onclick="startCampaign()">Launch Campaign <i class="ph ph-rocket-launch"></i></button>
+            </div>
+
+            <!-- Right: Analytics -->
+            <div class="glass-card metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon blue"><i class="ph ph-users"></i></div>
+                    <div class="metric-info">
+                        <h4>Total Processed</h4>
+                        <p class="value" id="val-total">0</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon green"><i class="ph ph-check-circle"></i></div>
+                    <div class="metric-info">
+                        <h4>Successfully Sent</h4>
+                        <p class="value" id="val-success">0</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon red"><i class="ph ph-warning-circle"></i></div>
+                    <div class="metric-info">
+                        <h4>Failed / Invalid</h4>
+                        <p class="value" id="val-failed">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom: Progress & Logs -->
+        <div class="glass-card live-section" id="live-section" style="display: none;">
+            <div class="progress-header">
+                <span><i class="ph ph-pulse" style="color: var(--primary);"></i> Live Campaign Status</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="log-box" id="log-box"></div>
+        </div>
+
+        <!-- Campaign History Section -->
+        <div class="history-section" id="history-section" style="display: none;">
+            <div class="history-header">
+                <h2 class="history-title"><i class="ph ph-database"></i> Campaign History</h2>
+                <div class="history-controls">
+                    <div class="search-box">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" id="search-input" placeholder="Search name, email, role..." onkeyup="searchLogs()">
+                    </div>
+                    <input type="text" id="download-date" class="download-date" placeholder="DD_MM_YYYY (optional)">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="download-btn" onclick="downloadReport('csv')">
+                            <i class="ph ph-file-csv" style="color: #10b981;"></i> Excel
+                        </button>
+                        <button class="download-btn" onclick="downloadReport('pdf')">
+                            <i class="ph ph-file-pdf" style="color: #ef4444;"></i> PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-table-body">
+                        <!-- Logs will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = '';
+
+        function login() {
+            const pwd = document.getElementById('admin-pwd').value;
+            fetch('http://localhost:3000/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pwd })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    authToken = data.token;
+                    document.getElementById('login-view').style.display = 'none';
+                    document.getElementById('dashboard-view').style.display = 'block';
+                    loadLogs(); // Load history on login
+                } else {
+                    document.getElementById('login-err').style.display = 'block';
+                }
+            })
+            .catch(err => alert("Error connecting to server. Make sure it is running."));
+        }
+
+        function togglePassword() {
+            const pwdInput = document.getElementById('admin-pwd');
+            const eyeIcon = document.getElementById('toggle-pwd');
+            if (pwdInput.type === "password") {
+                pwdInput.type = "text";
+                eyeIcon.classList.remove('ph-eye');
+                eyeIcon.classList.add('ph-eye-slash');
+            } else {
+                pwdInput.type = "password";
+                eyeIcon.classList.remove('ph-eye-slash');
+                eyeIcon.classList.add('ph-eye');
+            }
+        }
+
+        function logout() {
+            authToken = '';
+            document.getElementById('admin-pwd').value = '';
+            document.getElementById('profile-menu').classList.remove('active');
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('login-view').style.display = 'flex';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInside = document.querySelector('.header-profile-container').contains(event.target);
+            if (!isClickInside) {
+                document.getElementById('profile-menu').classList.remove('active');
+            }
+        });
+
+        // Drag and drop logic
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('csv-file');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+
+        function handleFileSelect() {
+            if(fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const nameDiv = document.getElementById('selected-file-name');
+                
+                // Smart CSV Reader to instantly count rows
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    // Count lines, ignore empty lines and header
+                    const lines = text.split('\n').filter(line => line.trim().length > 0);
+                    const candidateCount = lines.length > 1 ? lines.length - 1 : 0;
+                    
+                    nameDiv.innerHTML = `📄 <strong>${file.name}</strong> <br> <span style="color:var(--success); font-size:0.9rem;">✅ Found ${candidateCount} candidates</span>`;
+                    nameDiv.style.display = 'block';
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        async function startCampaign() {
+            if(!fileInput.files.length) return alert("Please select a CSV file first!");
+            
+            const btn = document.getElementById('send-btn');
+            const liveSection = document.getElementById('live-section');
+            const logBox = document.getElementById('log-box');
+            
+            // Reset Metrics
+            let successCount = 0;
+            let failedCount = 0;
+            document.getElementById('val-total').innerText = '0';
+            document.getElementById('val-success').innerText = '0';
+            document.getElementById('val-failed').innerText = '0';
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('progress-text').innerText = '0%';
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Processing Campaign...';
+            liveSection.style.display = 'block';
+            logBox.innerHTML = '<div><i class="ph ph-upload-simple"></i> Uploading CSV to server...</div>';
+
+            const formData = new FormData();
+            formData.append('campaignFile', fileInput.files[0]);
+
+            try {
+                const res = await fetch('http://localhost:3000/api/campaign/upload', {
+                    method: 'POST',
+                    headers: { 'Authorization': authToken },
+                    body: formData
+                });
+                
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+
+                let buffer = '';
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        // Failsafe: if the 'done' event was missed, still mark as complete
+                        if (btn.innerText.includes('Processing')) {
+                            btn.innerHTML = 'Campaign Complete <i class="ph ph-check-circle"></i>';
+                            document.getElementById('progress-fill').style.width = '100%';
+                            document.getElementById('progress-text').innerText = '100%';
+                            loadLogs();
+                        }
+                        break;
+                    }
+                    
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop(); // Keep incomplete line in buffer
+                    
+                    for(let line of lines) {
+                        if(line.trim()) {
+                            try {
+                                const data = JSON.parse(line);
+                                
+                                // Handle Logs
+                                if(data.type === 'log') {
+                                    let color = '#334155';
+                                    if(data.message.includes('✅')) { color = 'var(--success)'; successCount++; }
+                                    if(data.message.includes('❌')) { color = 'var(--danger)'; failedCount++; }
+                                    
+                                    logBox.innerHTML += `<div style="color: ${color}">${data.message}</div>`;
+                                    logBox.scrollTop = logBox.scrollHeight;
+                                    
+                                    // Update Analytic Cards Live!
+                                    document.getElementById('val-success').innerText = successCount;
+                                    document.getElementById('val-failed').innerText = failedCount;
+                                }
+                                
+                                // Handle Progress Bar & Total
+                                if(data.type === 'progress') {
+                                    const percent = Math.round((data.current / data.total) * 100);
+                                    document.getElementById('progress-fill').style.width = percent + '%';
+                                    document.getElementById('progress-text').innerText = percent + '%';
+                                    document.getElementById('val-total').innerText = data.current;
+                                }
+                                
+                                // Handle Completion
+                                if(data.type === 'done') {
+                                    btn.innerHTML = 'Campaign Complete <i class="ph ph-check-circle"></i>';
+                                    document.getElementById('progress-fill').style.width = '100%';
+                                    document.getElementById('progress-text').innerText = '100%';
+                                    loadLogs(); // Refresh the database table automatically
+                                }
+                                
+                                // Handle Critical Errors
+                                if(data.type === 'error') {
+                                    logBox.innerHTML += `<div style="color:var(--danger); font-weight:bold;">Critical Error: ${data.message}</div>`;
+                                    btn.innerHTML = 'Error. Try Again <i class="ph ph-warning-circle"></i>';
+                                    btn.disabled = false;
+                                }
+                            } catch(e) {
+                                console.error("JSON parse error on line:", line);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                alert("Upload failed. Ensure backend server is running.");
+                btn.disabled = false;
+                btn.innerHTML = 'Launch Campaign <i class="ph ph-rocket-launch"></i>';
+            }
+        }
+
+        // --- Database & Reporting Logic ---
+        let allLogs = [];
+
+        async function loadLogs() {
+            try {
+                const res = await fetch('http://localhost:3000/api/campaign/logs');
+                allLogs = await res.json();
+                renderLogs(allLogs);
+                document.getElementById('history-section').style.display = 'block';
+            } catch (err) {
+                console.error("Failed to load logs");
+            }
+        }
+
+        function renderLogs(logs) {
+            const tbody = document.getElementById('logs-table-body');
+            tbody.innerHTML = '';
+            
+            if(logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No campaigns sent yet.</td></tr>';
+                return;
+            }
+
+            logs.forEach(log => {
+                const d = new Date(log.date);
+                const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const statusClass = 'status-' + log.status; // status-Sent or status-Failed
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${dateStr}</td>
+                        <td style="font-weight: 500;">${log.name}</td>
+                        <td style="color: var(--text-muted);">${log.email}</td>
+                        <td>${log.role}</td>
+                        <td><span class="status-badge ${statusClass}">${log.status}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function searchLogs() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allLogs.filter(log => 
+                log.name.toLowerCase().includes(query) || 
+                log.email.toLowerCase().includes(query) || 
+                log.role.toLowerCase().includes(query)
+            );
+            renderLogs(filtered);
+        }
+
+        function downloadReport(format) {
+            let url = 'http://localhost:3000/api/campaign/download?format=' + format;
+            const dateFilter = document.getElementById('download-date').value.trim();
+            if (dateFilter) {
+                url += '&date=' + encodeURIComponent(dateFilter);
+            }
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyOwn Habitat | The Future of Home Ownership</title>
+    <meta name="description" content="A premium Home Ownership Advisory System (HOAS) designed to transition tenants into homeowners.">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <meta name="theme-color" content="#006241">
+    
+    <!-- Open Graph / SEO Social Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.keyownhabitat.com/">
+    <meta property="og:title" content="KeyOwn Habitat | The Future of Home Ownership">
+    <meta property="og:description" content="A premium Home Ownership Advisory System (HOAS) designed to transition tenants into homeowners.">
+    <meta property="og:image" content="https://www.keyownhabitat.com/square-logo.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://www.keyownhabitat.com/">
+    <meta property="twitter:title" content="KeyOwn Habitat | The Future of Home Ownership">
+    <meta property="twitter:description" content="A premium Home Ownership Advisory System (HOAS) designed to transition tenants into homeowners.">
+    <meta property="twitter:image" content="https://www.keyownhabitat.com/square-logo.png">
+
+    <!-- Schema Markup for Google Search Logo -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "KeyOwn Habitat",
+      "url": "https://www.keyownhabitat.com/",
+      "logo": "https://www.keyownhabitat.com/square-logo.png"
+    }
+    </script>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+    <link rel="apple-touch-icon" href="favicon-192x192.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css?v=36">
+</head>
+<body>
+    <!-- Ambient Animation Background -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat Logo" class="custom-logo">
+            </div>
+            <div class="nav-links">
+                <a href="careers.html" class="nav-careers-btn"><i class="ph ph-briefcase"></i> Careers</a>
+                <a href="#assessment-form-card" class="btn btn-primary">Get Your Strategy <i class="ph ph-lightning"></i></a>
+                <a href="https://wa.me/919886535949?text=Hi,%20I%20want%20to%20know%20more%20about%20KeyOwn%20Habitat%20Home%20Ownership%20Advisory%20System." class="whatsapp-btn nav-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
+                    <i class="ph ph-whatsapp-logo"></i>
+                </a>
+            </div>
+            <!-- Mobile Menu Actions -->
+            <div class="mobile-nav-actions">
+                <a href="careers.html" class="careers-header-fab" aria-label="View Careers">
+                    <i class="ph ph-briefcase"></i>
+                </a>
+                <button class="hamburger" aria-label="Toggle Mobile Menu" onclick="document.body.classList.toggle('menu-open')">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+        <button class="mobile-menu-close" aria-label="Close Menu" onclick="document.body.classList.remove('menu-open')">
+            <i class="ph ph-x"></i>
+        </button>
+        <div class="mobile-menu-content">
+            <a href="#how-it-works" onclick="document.body.classList.remove('menu-open')">How It Works</a>
+            <a href="#benefits" onclick="document.body.classList.remove('menu-open')">Benefits</a>
+            <a href="#plans" onclick="document.body.classList.remove('menu-open')">Plans</a>
+            <a href="#faq" onclick="document.body.classList.remove('menu-open')">FAQ</a>
+            <a href="careers.html">Careers</a>
+            <div style="margin-top: 2rem;">
+                <a href="#assessment-form-card" class="btn btn-primary btn-block" onclick="document.body.classList.remove('menu-open')">Get Your Strategy <i class="ph ph-lightning"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero hero-centered">
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+        
+        <div class="container">
+            <div class="hero-content text-center">
+                <div class="badge mx-auto">
+                    <i class="ph ph-house-heart"></i> Your Path to Home Ownership
+                </div>
+                <h1 class="headline">
+                    Stop&nbsp;<span class="text-gradient">Renting.</span> Start&nbsp;<span class="text-gradient">Owning.</span>
+                </h1>
+                <p class="subheadline mx-auto">
+                    India's first education-first, advisory-led Home Ownership platform. We assess your financial profile, fix your credit, and guide you to your dream home, step by step.
+                </p>
+                <div class="hero-actions justify-center">
+                    <a href="#assessment-form-card" class="btn btn-primary btn-lg">Get Your Free Assessment <i class="ph ph-arrow-right"></i></a>
+                    <a href="#how-it-works" class="btn btn-glass btn-lg">How It Works</a>
+                </div>
+                <div class="trust-line mx-auto" style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                    <i class="ph ph-shield-check" style="color: var(--primary); margin-right: 4px; vertical-align: middle;"></i> MSME Registered Business | RERA Compliant | Bengaluru & Mysuru,&nbsp;India
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Partner Logos Marquee -->
+    <section class="partners-marquee reveal-up" style="background: transparent;">
+        <div class="marquee-title">Supported By Trusted Financial & Real Estate Ecosystems</div>
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <!-- Set 1 -->
+                <div class="partner-logo"><i class="ph ph-bank"></i> <span>State Bank of India</span></div>
+                <div class="partner-logo"><i class="ph ph-buildings"></i> <span>HDFC Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-chart-bar"></i> <span>ICICI Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-chart-line-up"></i> <span>Axis Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-shield-check"></i> <span>Bajaj Housing Finance</span></div>
+                <div class="partner-logo"><i class="ph ph-coins"></i> <span>LIC Housing Finance</span></div>
+                <div class="partner-logo"><i class="ph ph-vault"></i> <span>Kotak Mahindra Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-house-line"></i> <span>PNB Housing Finance</span></div>
+                <div class="partner-logo"><i class="ph ph-bank"></i> <span>Bank of Baroda</span></div>
+                <div class="partner-logo"><i class="ph ph-buildings"></i> <span>Canara Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-chart-line-up"></i> <span>Tata Capital</span></div>
+                <div class="partner-logo"><i class="ph ph-house-line"></i> <span>IDFC First Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-vault"></i> <span>IndusInd Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-check-circle"></i> <span>Yes Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-bank"></i> <span>Union Bank of India</span></div>
+                <div class="partner-logo"><i class="ph ph-house-line"></i> <span>Muthoot Housing Finance</span></div>
+                
+                <!-- Set 2 (Duplicate for seamless loop) -->
+                <div class="partner-logo"><i class="ph ph-bank"></i> <span>State Bank of India</span></div>
+                <div class="partner-logo"><i class="ph ph-buildings"></i> <span>HDFC Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-chart-bar"></i> <span>ICICI Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-chart-line-up"></i> <span>Axis Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-shield-check"></i> <span>Bajaj Housing Finance</span></div>
+                <div class="partner-logo"><i class="ph ph-coins"></i> <span>LIC Housing Finance</span></div>
+                <div class="partner-logo"><i class="ph ph-vault"></i> <span>Kotak Mahindra Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-house-line"></i> <span>PNB Housing Finance</span></div>
+                <div class="partner-logo"><i class="ph ph-bank"></i> <span>Bank of Baroda</span></div>
+                <div class="partner-logo"><i class="ph ph-buildings"></i> <span>Canara Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-chart-line-up"></i> <span>Tata Capital</span></div>
+                <div class="partner-logo"><i class="ph ph-house-line"></i> <span>IDFC First Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-vault"></i> <span>IndusInd Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-check-circle"></i> <span>Yes Bank</span></div>
+                <div class="partner-logo"><i class="ph ph-bank"></i> <span>Union Bank of India</span></div>
+                <div class="partner-logo"><i class="ph ph-house-line"></i> <span>Muthoot Housing Finance</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem (Pain Points) Section -->
+    <section class="problem-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-warning"></i> The Reality of Renting</div>
+                <h2 class="section-title">Are You Losing Money Every Month?</h2>
+                <p class="section-subtitle">Millions of Indians are trapped in the rent cycle, paying lakhs over years and building zero equity.</p>
+            </div>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon"><i class="ph ph-money"></i></div>
+                    <h3 class="problem-title">Wasted Payments</h3>
+                    <p class="problem-desc">Your monthly rent pays someone else's mortgage. Over 10 years you pay ₹48–₹76 Lakhs and walk away with nothing.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon"><i class="ph ph-house-line"></i></div>
+                    <h3 class="problem-title">Zero Equity</h3>
+                    <p class="problem-desc">No matter how long you live there, you build zero ownership. No asset. No appreciation. No legacy.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon"><i class="ph ph-chart-line-down"></i></div>
+                    <h3 class="problem-title">Credit Confusion</h3>
+                    <p class="problem-desc">30% of mortgage applicants get rejected by banks, not because they can't afford a home, but because nobody guided them on credit readiness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-buildings"></i> About HOAS</div>
+                <h2 class="section-title">What is HOAS?</h2>
+                <p class="section-subtitle">Home Ownership Advisory Service: India's Missing Link Between Renters and Homeowners</p>
+            </div>
+            
+            <div class="about-content text-center">
+                <p class="about-desc">KeyOwn Habitat's HOAS is not a property portal. It is not a broker. It is a financial advisory platform that prepares you to own a home by fixing your credit profile, structuring your finances, and matching you with RERA-approved developers and partner banks.</p>
+                <p class="about-desc highlight-desc">We are asset-light, advice-first, and entirely on your side.</p>
+            </div>
+
+            <div class="problem-grid" style="margin-top: 2rem;">
+                <div class="problem-card" style="padding: 2rem; border-color: rgba(0, 98, 65, 0.1);">
+                    <div class="problem-icon" style="background: rgba(0, 98, 65, 0.08); color: var(--primary);"><i class="ph ph-house"></i></div>
+                    <h3 class="problem-title">Financial Readiness</h3>
+                    <p class="problem-desc" style="font-size: 0.95rem;">We assess your CIBIL score, income, and debt profile to understand exactly where you stand.</p>
+                </div>
+                <div class="problem-card" style="padding: 2rem; border-color: rgba(0, 98, 65, 0.1);">
+                    <div class="problem-icon" style="background: rgba(0, 98, 65, 0.08); color: var(--primary);"><i class="ph ph-clipboard-text"></i></div>
+                    <h3 class="problem-title">Expert Guidance</h3>
+                    <p class="problem-desc" style="font-size: 0.95rem;">We create a personalised roadmap to mortgage readiness, fixing documentation gaps and optimising your loan eligibility.</p>
+                </div>
+                <div class="problem-card" style="padding: 2rem; border-color: rgba(0, 98, 65, 0.1);">
+                    <div class="problem-icon" style="background: rgba(0, 98, 65, 0.08); color: var(--primary);"><i class="ph ph-handshake"></i></div>
+                    <h3 class="problem-title">Trusted Support</h3>
+                    <p class="problem-desc" style="font-size: 0.95rem;">We stay with you from first assessment to final key handover, including developer negotiation and bank loan facilitation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOAS Journey Timeline -->
+    <section id="stages" class="stages-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-path"></i> How It Works</div>
+                <h2 class="section-title">Your Journey to Home Ownership</h2>
+                <p class="section-subtitle">We've broken down the complex process of buying a home into a clear, supportive journey. We're with you every step of the way.</p>
+            </div>
+            
+            <div class="journey-grid">
+                <!-- Step 1 -->
+                <div class="journey-card reveal-up">
+                    <div class="journey-icon"><i class="ph ph-calendar-check"></i></div>
+                    <div class="journey-content">
+                        <span class="stage-tag">Step 1</span>
+                        <h3 class="stage-title">Free Assessment</h3>
+                        <p class="stage-desc">Book a free consultation. Our HOAS advisor assesses your CIBIL score, income, existing EMIs, and documentation gaps.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="journey-card reveal-up" style="transition-delay: 0.1s;">
+                    <div class="journey-icon"><i class="ph ph-map-trifold"></i></div>
+                    <div class="journey-content">
+                        <span class="stage-tag">Step 2</span>
+                        <h3 class="stage-title">Personalised Roadmap</h3>
+                        <p class="stage-desc">We create your custom credit and financial readiness plan. Pay a one-time advisory fee of ₹9,999 to activate your full roadmap.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="journey-card reveal-up" style="transition-delay: 0.2s;">
+                    <div class="journey-icon"><i class="ph ph-bank"></i></div>
+                    <div class="journey-content">
+                        <span class="stage-tag">Step 3</span>
+                        <h3 class="stage-title">Loan & Bank Facilitation</h3>
+                        <p class="stage-desc">Once credit-ready, we connect you with our partner banks and NBFCs to secure the best home loan for your profile, handling all documentation, negotiation, and approvals so you move forward with confidence.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="journey-card reveal-up" style="transition-delay: 0.3s;">
+                    <div class="journey-icon"><i class="ph ph-key"></i></div>
+                    <div class="journey-content">
+                        <span class="stage-tag">Step 4</span>
+                        <h3 class="stage-title">Loan Disbursement & Ownership</h3>
+                        <p class="stage-desc">With your mortgage approved, the funds are disbursed directly to the developer. Your financial transition is complete, you officially exit the rent trap and begin building your own asset legacy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Rent-vs-Asset Calculator -->
+    <section id="calculator" class="calculator-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-calculator"></i> HOAS Interactive Model</div>
+                <h2 class="section-title">Rent vs. Asset Calculator</h2>
+                <p class="section-subtitle">See exactly how much wealth vanishes with normal renting, and how KeyOwn Habitat recaptures it.</p>
+            </div>
+            
+            <div class="calculator-container glass-card">
+                <div class="calc-inputs">
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="monthly-rent">Current Monthly Rent</label>
+                            <span class="value-display" id="rent-value">₹30,000</span>
+                        </div>
+                        <input type="range" id="monthly-rent" min="15000" max="150000" step="5000" value="30000" class="slider">
+                        <div class="slider-marks">
+                            <span>₹15K</span>
+                            <span>₹50K</span>
+                            <span>₹100K</span>
+                            <span>₹150K</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="transition-period">Target Transition Period</label>
+                            <span class="value-display" id="period-value">240 Months (20 yrs)</span>
+                        </div>
+                        <input type="range" id="transition-period" min="24" max="300" step="12" value="240" class="slider">
+                        <div class="slider-marks">
+                            <span>2 yrs</span>
+                            <span>10 yrs</span>
+                            <span>20 yrs</span>
+                            <span>25 yrs</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-info-alert">
+                        <i class="ph ph-info"></i>
+                        <p>Based on a standard 10% annual rent escalation rate and an estimated 11.2% co-investment compounding yield.</p>
+                    </div>
+                </div>
+                
+                <div class="calc-outputs">
+                    <div class="output-card warning-card">
+                        <span class="output-label"><i class="ph ph-trend-down"></i> Wasted Rent Expense</span>
+                        <h3 class="output-amount" id="wasted-rent">₹51.2 Lakhs</h3>
+                        <p class="output-helper">Completely unrecoverable expense paid to landlord.</p>
+                    </div>
+                    
+                    <div class="output-card success-card">
+                        <span class="output-label"><i class="ph ph-trend-up"></i> KeyOwn Asset Equity</span>
+                        <h3 class="output-amount" id="keyown-equity">₹18.4 Lakhs</h3>
+                        <p class="output-helper">Recaptured equity to be used for your home purchase.</p>
+                    </div>
+                    
+                    <div class="output-card highlight-card">
+                        <span class="output-label"><i class="ph ph-hand-coins"></i> Your HOAS Advantage</span>
+                        <h3 class="output-amount text-gradient" id="net-advantage">₹18.4 Lakhs</h3>
+                        <p class="output-helper">Net financial boost starting your home ownership legacy.</p>
+                        <a href="#assessment-form-card" class="btn btn-primary btn-block mt-4">Lock In Strategy <i class="ph ph-lightning"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why KeyOwn / Key Benefits Grid -->
+    <section class="benefits-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-sparkles"></i> Habitat Edge</div>
+                <h2 class="section-title">Why Choose KeyOwn Habitat?</h2>
+                <p class="section-subtitle">We are not brokers. We are your financial advisors for homeownership.</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <!-- Point 1 -->
+                <div class="benefit-card glass-card reveal-up">
+                    <div class="benefit-icon"><i class="ph ph-graduation-cap"></i></div>
+                    <h3 class="benefit-title">Education First</h3>
+                    <p class="benefit-desc">We don't push you to buy before you're ready. We educate you, prepare you, and then guide you to the right home at the right time.</p>
+                </div>
+                
+                <!-- Point 2 -->
+                <div class="benefit-card glass-card reveal-up">
+                    <div class="benefit-icon" style="background: rgba(20, 241, 217, 0.1); color: var(--accent-teal);"><i class="ph ph-chart-line-up"></i></div>
+                    <h3 class="benefit-title">Credit Optimisation</h3>
+                    <p class="benefit-desc">We review and fix your CIBIL score, resolve documentation errors, and optimise your Loan-to-Value ratio for the best interest rates.</p>
+                </div>
+                
+                <!-- Point 3 -->
+                <div class="benefit-card glass-card reveal-up">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-shield-check"></i></div>
+                    <h3 class="benefit-title">Asset Light, Zero Risk</h3>
+                    <p class="benefit-desc">We don't buy properties or hold inventory. We are purely advisory, meaning our only incentive is your successful homeownership.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Testimonials / Real Results -->
+    <section id="testimonials" class="testimonials-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-heart"></i> Success Stories</div>
+                <h2 class="section-title">Real Results from Real People</h2>
+                <p class="section-subtitle">Join the thousands of tenants who have successfully transitioned to homeownership using the HOAS Framework.</p>
+            </div>
+            
+            <div class="testimonials-marquee-wrapper">
+            <div class="testimonials-track">
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Priya Sharma</h3>
+                    <p class="benefit-desc">"I never thought I could afford a down payment while paying 30k in rent every month. KeyOwn literally structured my finances so my rent became my down payment. I just got my keys!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Rahul Verma</h3>
+                    <p class="benefit-desc">"The advisory counsel is incredible. They negotiated a 10% discount on a pre-launch property that wasn't even on the market yet. The HOAS framework is brilliant."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(30, 57, 50, 0.1); color: var(--accent-teal);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Anjali Desai</h3>
+                    <p class="benefit-desc">"Stop renting right now and use this. I wasted 5 years paying a landlord. In just 3 years with KeyOwn, my equity match allowed me to buy my dream apartment."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Vikram Singh</h3>
+                    <p class="benefit-desc">"The rent-to-own concept was new to me, but KeyOwn made it so transparent. Their team guided me through every legal and financial step."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Sneha Reddy</h3>
+                    <p class="benefit-desc">"I thought villas were out of reach. With the co-investment compounding yield, my savings grew much faster than traditional deposits."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(30, 57, 50, 0.1); color: var(--accent-teal);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Arjun Nair</h3>
+                    <p class="benefit-desc">"Why pay someone else's mortgage? The rent escalation protection alone is worth its weight in gold. Extremely satisfied."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Kavya Menon</h3>
+                    <p class="benefit-desc">"We moved from a cramped 2BHK to a luxury 3BHK because we knew every rupee was building our own equity. Best decision ever."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Rohan Das</h3>
+                    <p class="benefit-desc">"When it was time to transition and buy out the equity, the paperwork was zero hassle. KeyOwn handled everything."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Priya Sharma</h3>
+                    <p class="benefit-desc">"I never thought I could afford a down payment while paying 30k in rent every month. KeyOwn literally structured my finances so my rent became my down payment. I just got my keys!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Rahul Verma</h3>
+                    <p class="benefit-desc">"The advisory counsel is incredible. They negotiated a 10% discount on a pre-launch property that wasn't even on the market yet. The HOAS framework is brilliant."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(30, 57, 50, 0.1); color: var(--accent-teal);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Anjali Desai</h3>
+                    <p class="benefit-desc">"Stop renting right now and use this. I wasted 5 years paying a landlord. In just 3 years with KeyOwn, my equity match allowed me to buy my dream apartment."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Vikram Singh</h3>
+                    <p class="benefit-desc">"The rent-to-own concept was new to me, but KeyOwn made it so transparent. Their team guided me through every legal and financial step."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Sneha Reddy</h3>
+                    <p class="benefit-desc">"I thought villas were out of reach. With the co-investment compounding yield, my savings grew much faster than traditional deposits."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(30, 57, 50, 0.1); color: var(--accent-teal);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Arjun Nair</h3>
+                    <p class="benefit-desc">"Why pay someone else's mortgage? The rent escalation protection alone is worth its weight in gold. Extremely satisfied."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(0, 98, 65, 0.1); color: var(--accent-indigo);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Kavya Menon</h3>
+                    <p class="benefit-desc">"We moved from a cramped 2BHK to a luxury 3BHK because we knew every rupee was building our own equity. Best decision ever."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="ph ph-user"></i></div>
+                    <h3 class="benefit-title">Rohan Das</h3>
+                    <p class="benefit-desc">"When it was time to transition and buy out the equity, the paperwork was zero hassle. KeyOwn handled everything."</p>
+                </div>
+</div>
+            </div>
+            
+            <div class="slider-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+                <div class="dot" data-index="3"></div>
+                <div class="dot" data-index="4"></div>
+                <div class="dot" data-index="5"></div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section class="faq-section reveal-up">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="badge"><i class="ph ph-question"></i> Help Center</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about the Home Ownership Advisory System.</p>
+            </div>
+            
+            <div class="faq-accordion-container">
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>What is HOAS?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>HOAS stands for Home Ownership Advisory Service. It is KeyOwn Habitat's flagship advisory platform that helps renters become homeowners through credit assessment, financial planning, and developer matching.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>How much does HOAS cost?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>We charge a one-time non-refundable advisory fee of ₹9,999 which covers your full financial assessment and personalised homeownership roadmap.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>Do I need a perfect credit score to start?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>No. We work with clients at all credit levels. Our job is to assess where you are and guide you to where you need to be for mortgage approval.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>How long does it take to become home-ready?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>It depends on your current financial profile. Some clients are ready immediately. Others may need 3–6 months of credit improvement before applying for a mortgage.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>Which cities do you operate in?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>We currently operate in Bengaluru. We are planning to expand to Hyderabad and Mumbai in 2027.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>Are you RERA registered?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>Yes. We operate in full compliance with RERA guidelines and exclusively list RERA-certified projects.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>How do I invest in KeyOwn Habitat?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>We are currently raising ₹25 Lakhs through a community investment round. Contact us on WhatsApp to receive the investor document and revenue share agreement.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card">
+                    <div class="faq-trigger">
+                        <span>Is my investment safe?</span>
+                        <i class="ph ph-caret-down transition-transform"></i>
+                    </div>
+                    <div class="faq-content">
+                        <p>This is a revenue share agreement, not a fixed deposit. Returns depend on business performance. However our projected operating profit of ₹67L+ per month comfortably covers all investor payouts and principal repayment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assessment Form / Final CTA Section -->
+    <section id="contact" class="assessment-section reveal-up">
+        <div class="container">
+            <div class="assessment-grid">
+                <div class="assessment-info">
+                    <div class="badge"><i class="ph ph-lightning"></i> Final Step</div>
+                    <h2 class="section-title" style="font-size: clamp(1.4rem, 6vw, 2.2rem); white-space: nowrap;">Ready to Start Owning?</h2>
+                    <p class="section-subtitle" style="font-size: 0.95rem; margin-bottom: 1.5rem;">Tell us about your current renting situation and we'll create your personalized transition assessment.</p>
+                    
+                    <h4 style="margin: 1.5rem 0 1rem; font-size: 1.1rem;">What You'll Get</h4>
+                    <div class="info-list">
+                        <div class="info-item" style="border: none; padding: 0; margin-bottom: 1rem;">
+                            <div class="info-icon" style="width: 40px; height: 40px;"><i class="ph ph-check"></i></div>
+                            <div class="info-text">
+                                <h4 style="font-size: 1rem; margin-bottom: 0.2rem;">Personalized Transition Plan</h4>
+                                <p style="font-size: 0.85rem;">A step-by-step 120-month financial roadmap.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item" style="border: none; padding: 0; margin-bottom: 1rem;">
+                            <div class="info-icon" style="width: 40px; height: 40px;"><i class="ph ph-check"></i></div>
+                            <div class="info-text">
+                                <h4 style="font-size: 1rem; margin-bottom: 0.2rem;">Free Strategy Consultation</h4>
+                                <p style="font-size: 0.85rem;">1-on-1 call with a certified estate advisor.</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item" style="border: none; padding: 0;">
+                            <div class="info-icon" style="width: 40px; height: 40px;"><i class="ph ph-check"></i></div>
+                            <div class="info-text">
+                                <h4 style="font-size: 1rem; margin-bottom: 0.2rem;">Equity Match Calculation</h4>
+                                <p style="font-size: 0.85rem;">See exactly how much matching equity you qualify for.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="assessment-form-card" class="assessment-card glass-card">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center;">Get Your Free Assessment</h3>
+                    <form id="strategy-form">
+                        <div class="form-grid">
+                            <div class="input-field full-width">
+                                <label for="user-name">Full Name</label>
+                                <div class="input-container">
+                                    <i class="ph ph-user"></i>
+                                    <input type="text" id="user-name" placeholder="John Doe" required>
+                                </div>
+                            </div>
+                            
+                            <div class="input-field full-width">
+                                <label for="user-email">Email Address</label>
+                                <div class="input-container">
+                                    <i class="ph ph-envelope"></i>
+                                    <input type="email" id="user-email" placeholder="john@example.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="input-field full-width">
+                                <label for="user-phone">Phone Number</label>
+                                <div class="input-container">
+                                    <i class="ph ph-phone"></i>
+                                    <input type="tel" id="user-phone" placeholder="+91 98765 43210" required>
+                                </div>
+                            </div>
+                            
+                            <div class="input-field full-width">
+                                <label for="user-city">Current Renting City</label>
+                                <div class="input-container">
+                                    <i class="ph ph-map-pin"></i>
+                                    <input type="text" id="user-city" placeholder="e.g. Bangalore, Mysuru, Chennai" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block btn-lg full-width" style="margin-top: 1rem;">
+                                Generate My Assessment <i class="ph ph-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div id="form-success" class="form-success-message d-none">
+                        <i class="ph ph-check-circle"></i>
+                        <h3>Assessment Request Submitted!</h3>
+                        <p>Thank you! Your custom financial transition assessment calculations have begun. A certified HOAS advisor will contact you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="Keyown_habitat_new_logo-removebg-preview.png" alt="KeyOwn Habitat Logo" class="footer-logo" style="filter: brightness(0) invert(1); mix-blend-mode: normal;">
+                </div>
+                <p class="brand-desc">Building wealth bridges for the modern renter. The first structured pathway from rent to asset legacy.</p>
+                <div class="footer-contact-info">
+                    <span class="footer-address"><i class="ph ph-map-pin" style="margin-top: 3px; flex-shrink: 0;"></i> No 544, 3rd floor, A block, ACES Layout, Near Hospectic Hospital, Singasandra, Bangalore - 560068</span>
+                    <a href="https://www.keyownhabitat.com" target="_blank"><i class="ph ph-globe"></i> www.keyownhabitat.com</a>
+                    <a href="mailto:hello@keyownhabitat.com"><i class="ph ph-envelope"></i> hello@keyownhabitat.com</a>
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook" class="social-icon-btn"><i class="ph ph-facebook-logo"></i></a>
+                    <a href="#" aria-label="Instagram" class="social-icon-btn"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="#" aria-label="Twitter" class="social-icon-btn"><i class="ph ph-twitter-logo"></i></a>
+                    <a href="#" aria-label="LinkedIn" class="social-icon-btn"><i class="ph ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="links-column">
+                    <h4>Quick Links</h4>
+                    <a href="terms.html">Terms & Conditions</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="careers.html">Careers</a>
+                    <a href="#calculator">Rent Calculator</a>
+                    <a href="#">Security Trust</a>
+                </div>
+                
+                <div class="links-column">
+                    <h4>More</h4>
+                    <a href="#about">About HOAS</a>
+                    <a href="#">Advisory Board</a>
+                    <a href="#">Partners</a>
+                    <a href="#">Contact Us</a>
+                </div>
+                
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 KeyOwn Habitat. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Widgets -->
+    <a href="https://wa.me/919886535949?text=Hi,%20I%20want%20to%20know%20more%20about%20KeyOwn%20Habitat%20Home%20Ownership%20Advisory%20System." class="whatsapp-floating-btn" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="ph ph-whatsapp-logo"></i>
+    </a>
+    
+    <div class="chatbot-widget" id="chatbot-widget">
+        <button class="chatbot-trigger" id="chatbot-trigger" aria-label="Toggle Chatbot">
+            <i class="ph ph-chat-centered-text"></i>
+            <span class="trigger-badge" id="trigger-badge">1</span>
+        </button>
+
+        <div class="chatbot-window" id="chatbot-window">
+            <!-- Header -->
+            <div class="chatbot-header">
+                <div class="chat-avatar">
+                    <i class="ph ph-sparkle"></i>
+                </div>
+                <div class="chat-status">
+                    <h4>HOAS Assistant</h4>
+                    <span><span class="online-indicator"></span> Active Now</span>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="chat-action-btn" id="chat-restart" aria-label="Restart Chat" title="Restart">
+                        <i class="ph ph-arrow-counter-clockwise"></i>
+                    </button>
+                    <button class="chat-action-btn" id="chat-close" aria-label="Close Chat">
+                        <i class="ph ph-x"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages injected by JS -->
+            </div>
+
+            <!-- Typing Indicator (hidden by default) -->
+            <div class="chat-typing" id="chat-typing" style="display:none;">
+                <span></span><span></span><span></span>
+            </div>
+
+            <!-- Quick-reply Options -->
+            <div class="chat-options" id="chat-options"></div>
+
+            <!-- Free-text Input -->
+            <div class="chat-input-row" id="chat-input-row">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Type a message…" autocomplete="off" />
+                <button class="chat-send-btn" id="chat-send" aria-label="Send">
+                    <i class="ph ph-paper-plane-tilt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js?v=4"></script>
+</body>
+</html>

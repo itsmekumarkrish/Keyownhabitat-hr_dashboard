@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invest in KeyOwn Habitat | 4% Monthly Returns</title>
+    <meta name="description" content="Secure and transparent Fractional Ownership Platform by KeyOwn Habitat.">
+    <meta name="theme-color" content="#006241">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+    <link rel="apple-touch-icon" href="favicon-192x192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css?v=11">
+    <style>
+        /* Specific adjustments for the Invest page to make it highly conversion focused */
+        .invest-hero {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        .invest-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .invest-benefits {
+            text-align: left;
+        }
+        .invest-benefits ul {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+        .invest-benefits li {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            color: var(--text-dark);
+        }
+        .invest-benefits li i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 2px;
+        }
+        .download-success {
+            display: none;
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid var(--whatsapp);
+            color: var(--text-dark);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .download-success.active {
+            display: block;
+        }
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+        .form-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .invest-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .invest-hero { padding: 100px 0 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Animation Background -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Keyown habitat transparent .png" alt="KeyOwn Habitat Logo" class="custom-logo">
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="btn btn-glass" style="margin-right: 1rem;">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Invest Section -->
+    <section class="invest-hero">
+        <div class="container">
+            <div class="badge mx-auto" style="margin-bottom: 2rem;">
+                <i class="ph ph-trend-up"></i> Community Investment Round
+            </div>
+            
+            <div class="invest-grid">
+                
+                <!-- Left Side: The Pitch -->
+                <div class="invest-benefits">
+                    <h1 class="headline" style="font-size: 2.8rem; margin-bottom: 1rem;">
+                        Earn <span class="text-gradient">4% Monthly</span> while solving India's Rent Trap.
+                    </h1>
+                    <p class="subheadline" style="font-size: 1.1rem; color: var(--text-muted);">
+                        We are opening a limited ₹25 Lakh community round to fund our Phase 1 Bengaluru launch. Skip the VCs and join us as an angel investor.
+                    </p>
+                    
+                    <ul>
+                        <li>
+                            <i class="ph ph-check-circle"></i>
+                            <div>
+                                <strong>High Yield Returns</strong>
+                                <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.25rem;">Earn a 4% proportional monthly revenue share for 12 months.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="ph ph-shield-check"></i>
+                            <div>
+                                <strong>100% Principal Protection</strong>
+                                <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.25rem;">Your original investment is returned in full at Month 12.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="ph ph-buildings"></i>
+                            <div>
+                                <strong>Asset-Light & High Margin</strong>
+                                <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.25rem;">We operate an advisory model with ~75% operating profit margins. Zero property acquisition risks.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="ph ph-money"></i>
+                            <div>
+                                <strong>Accessible Ticket Size</strong>
+                                <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.25rem;">Participate as an angel investor with a minimum ticket of just ₹50,000.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right Side: The Form -->
+                <div class="assessment-card glass-card">
+                    <h3 class="form-title text-center">Download Pitch Deck</h3>
+                    <p class="form-subtitle text-center">Enter your details below to instantly receive our confidential financial model and Strategic Investment Memorandum.</p>
+                    
+                    <form id="investor-form">
+                        <div class="form-grid" style="grid-template-columns: 1fr;">
+                            <div class="input-field full-width">
+                                <label for="investor-name">Full Name</label>
+                                <div class="input-container">
+                                    <i class="ph ph-user"></i>
+                                    <input type="text" id="investor-name" placeholder="John Doe" required>
+                                </div>
+                            </div>
+                            
+                            <div class="input-field full-width">
+                                <label for="investor-email">Email Address</label>
+                                <div class="input-container">
+                                    <i class="ph ph-envelope"></i>
+                                    <input type="email" id="investor-email" placeholder="john@example.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="input-field full-width">
+                                <label for="investor-phone">Phone Number (For WhatsApp Follow-up)</label>
+                                <div class="input-container">
+                                    <i class="ph ph-whatsapp-logo"></i>
+                                    <input type="tel" id="investor-phone" placeholder="+91 98765 43210" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block btn-lg full-width" style="margin-top: 1rem;">
+                                Download Prospectus PDF <i class="ph ph-download-simple"></i>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="success-message" class="download-success">
+                        <i class="ph ph-check-circle" style="font-size: 2rem; color: var(--whatsapp); margin-bottom: 0.5rem;"></i>
+                        <h4 style="margin-bottom: 0.5rem;">Downloading...</h4>
+                        <p style="font-size: 0.9rem;">The HOAS I Proposal PDF is downloading securely. Our founder Shivakumar will reach out shortly to answer any questions!</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="copyright">&copy; 2026 KeyOwn Habitat. Confidential Investment Proposal.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script>
+        // Simple form handling for the investor page
+        document.getElementById('investor-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real app, this would send data to your CRM or email via an API
+            const name = document.getElementById('investor-name').value;
+            const email = document.getElementById('investor-email').value;
+            const phone = document.getElementById('investor-phone').value;
+            
+            // Hide form and show success message
+            this.style.display = 'none';
+            document.getElementById('success-message').classList.add('active');
+            
+            // Trigger the actual PDF download
+            const link = document.createElement('a');
+            link.href = 'HOAS I Proposal V-2.pdf';
+            link.download = 'KeyOwn_Habitat_Investment_Proposal.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+</body>
+</html>

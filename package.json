@@ -1,0 +1,24 @@
+{
+  "name": "keyown-habitat",
+  "version": "1.0.0",
+  "description": "A premium Home Ownership Advisory System (HOAS) designed to transition tenants into homeowners through a rent-to-own financial framework.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.6",
+    "csv-parser": "^3.2.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3",
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.3",
+    "pdfkit": "^0.19.1"
+  }
+}
