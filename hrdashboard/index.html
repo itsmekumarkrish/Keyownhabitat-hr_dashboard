@@ -224,21 +224,21 @@
                 <div class="metric-card">
                     <div class="metric-icon blue"><i class="ph ph-users"></i></div>
                     <div class="metric-info">
-                        <h4>Total Processed</h4>
+                        <h4>Today's Processed</h4>
                         <p class="value" id="val-total">0</p>
                     </div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-icon green"><i class="ph ph-check-circle"></i></div>
                     <div class="metric-info">
-                        <h4>Successfully Sent</h4>
+                        <h4>Today's Sent</h4>
                         <p class="value" id="val-success">0</p>
                     </div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-icon red"><i class="ph ph-warning-circle"></i></div>
                     <div class="metric-info">
-                        <h4>Failed / Invalid</h4>
+                        <h4>Today's Failed</h4>
                         <p class="value" id="val-failed">0</p>
                     </div>
                 </div>
@@ -399,12 +399,7 @@
             const liveSection = document.getElementById('live-section');
             const logBox = document.getElementById('log-box');
             
-            // Reset Metrics
-            let successCount = 0;
-            let failedCount = 0;
-            document.getElementById('val-total').innerText = '0';
-            document.getElementById('val-success').innerText = '0';
-            document.getElementById('val-failed').innerText = '0';
+            // Reset Progress Bar, but NOT the Today's Totals cards!
             document.getElementById('progress-fill').style.width = '0%';
             document.getElementById('progress-text').innerText = '0%';
             
@@ -452,23 +447,23 @@
                                 // Handle Logs
                                 if(data.type === 'log') {
                                     let color = '#334155';
-                                    if(data.message.includes('✅')) { color = 'var(--success)'; successCount++; }
-                                    if(data.message.includes('❌')) { color = 'var(--danger)'; failedCount++; }
+                                    if(data.message.includes('✅')) { color = 'var(--success)'; todaySuccess++; todayTotal++; }
+                                    if(data.message.includes('❌')) { color = 'var(--danger)'; todayFailed++; todayTotal++; }
                                     
                                     logBox.innerHTML += `<div style="color: ${color}">${data.message}</div>`;
                                     logBox.scrollTop = logBox.scrollHeight;
                                     
                                     // Update Analytic Cards Live!
-                                    document.getElementById('val-success').innerText = successCount;
-                                    document.getElementById('val-failed').innerText = failedCount;
+                                    document.getElementById('val-total').innerText = todayTotal;
+                                    document.getElementById('val-success').innerText = todaySuccess;
+                                    document.getElementById('val-failed').innerText = todayFailed;
                                 }
                                 
-                                // Handle Progress Bar & Total
+                                // Handle Progress Bar
                                 if(data.type === 'progress') {
                                     const percent = Math.round((data.current / data.total) * 100);
                                     document.getElementById('progress-fill').style.width = percent + '%';
                                     document.getElementById('progress-text').innerText = percent + '%';
-                                    document.getElementById('val-total').innerText = data.current;
                                 }
                                 
                                 // Handle Completion
@@ -500,11 +495,33 @@
 
         // --- Database & Reporting Logic ---
         let allLogs = [];
+        let todaySuccess = 0;
+        let todayFailed = 0;
+        let todayTotal = 0;
 
         async function loadLogs() {
             try {
                 const res = await fetch('/api/campaign/logs');
                 allLogs = await res.json();
+                
+                // Calculate Today's Totals
+                const today = new Date().toLocaleDateString();
+                todaySuccess = 0;
+                todayFailed = 0;
+                
+                allLogs.forEach(log => {
+                    const logDate = new Date(log.date).toLocaleDateString();
+                    if(logDate === today) {
+                        if(log.status === 'Sent') todaySuccess++;
+                        else todayFailed++;
+                    }
+                });
+                todayTotal = todaySuccess + todayFailed;
+                
+                document.getElementById('val-total').innerText = todayTotal;
+                document.getElementById('val-success').innerText = todaySuccess;
+                document.getElementById('val-failed').innerText = todayFailed;
+                
                 renderLogs(allLogs);
                 document.getElementById('history-section').style.display = 'block';
             } catch (err) {
