@@ -284,7 +284,7 @@
 
         function login() {
             const pwd = document.getElementById('admin-pwd').value;
-            fetch('http://localhost:3000/api/admin/login', {
+            fetch('/api/admin/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password: pwd })
@@ -400,7 +400,7 @@
             formData.append('campaignFile', fileInput.files[0]);
 
             try {
-                const res = await fetch('http://localhost:3000/api/campaign/upload', {
+                const res = await fetch('/api/campaign/upload', {
                     method: 'POST',
                     headers: { 'Authorization': authToken },
                     body: formData
@@ -486,7 +486,7 @@
 
         async function loadLogs() {
             try {
-                const res = await fetch('http://localhost:3000/api/campaign/logs');
+                const res = await fetch('/api/campaign/logs');
                 allLogs = await res.json();
                 renderLogs(allLogs);
                 document.getElementById('history-section').style.display = 'block';
@@ -532,7 +532,7 @@
         }
 
         function downloadReport(format) {
-            let url = 'http://localhost:3000/api/campaign/download?format=' + format;
+            let url = '/api/campaign/download?format=' + format;
             const dateFilter = document.getElementById('download-date').value.trim();
             if (dateFilter) {
                 url += '&date=' + encodeURIComponent(dateFilter);
