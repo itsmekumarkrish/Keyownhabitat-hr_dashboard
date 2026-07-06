@@ -664,22 +664,30 @@ app.get('/api/campaign/logs', async (req, res) => {
 // API: Download Campaign Logs as CSV or PDF
 app.get('/api/campaign/download', async (req, res) => {
     try {
-        const dateFilter = req.query.date; // Format: DD_MM_YYYY
+        const startDateStr = req.query.startDate; // Format: DD_MM_YYYY
+        const endDateStr = req.query.endDate; // Format: DD_MM_YYYY
         const format = req.query.format || 'csv'; // 'csv' or 'pdf'
         
         let query = {};
-        if (dateFilter) {
-            const parts = dateFilter.split('_');
-            if (parts.length === 3) {
-                const day = parseInt(parts[0], 10);
-                const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
-                const year = parseInt(parts[2], 10);
+        if (startDateStr && endDateStr) {
+            const startParts = startDateStr.split('_');
+            const endParts = endDateStr.split('_');
+            
+            if (startParts.length === 3 && endParts.length === 3) {
+                const sDay = parseInt(startParts[0], 10);
+                const sMonth = parseInt(startParts[1], 10) - 1;
+                const sYear = parseInt(startParts[2], 10);
                 
-                const startDate = new Date(year, month, day, 0, 0, 0);
-                const endDate = new Date(year, month, day, 23, 59, 59, 999);
+                const eDay = parseInt(endParts[0], 10);
+                const eMonth = parseInt(endParts[1], 10) - 1;
+                const eYear = parseInt(endParts[2], 10);
+                
+                const startDate = new Date(sYear, sMonth, sDay, 0, 0, 0);
+                const endDate = new Date(eYear, eMonth, eDay, 23, 59, 59, 999);
                 query.date = { $gte: startDate, $lte: endDate };
             }
         }
+        const reportTitleDate = (startDateStr && endDateStr) ? ((startDateStr === endDateStr) ? startDateStr : `${startDateStr}_to_${endDateStr}`) : 'all';
         
         const filteredLogs = await CampaignLog.find(query).sort({ date: -1 });
 
@@ -690,13 +698,13 @@ app.get('/api/campaign/download', async (req, res) => {
         if (format === 'pdf') {
             const doc = new PDFDocument({ margin: 50 });
             res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename=campaign_report_${dateFilter || 'all'}.pdf`);
+            res.setHeader('Content-Disposition', `attachment; filename=campaign_report_${reportTitleDate}.pdf`);
             doc.pipe(res);
 
             // Title
             doc.fontSize(20).text('KeyOwn Habitat - Campaign Report', { align: 'center' });
             doc.moveDown(0.5);
-            doc.fontSize(12).fillColor('gray').text(`Report Date: ${dateFilter || 'All Time'}`, { align: 'center' });
+            doc.fontSize(12).fillColor('gray').text(`Report Date: ${reportTitleDate.replace(/_/g, '/')}`, { align: 'center' });
             doc.moveDown(2);
 
             // Table Header
@@ -747,7 +755,7 @@ app.get('/api/campaign/download', async (req, res) => {
             });
 
             res.setHeader('Content-Type', 'text/csv');
-            res.setHeader('Content-Disposition', `attachment; filename=campaign_report_${dateFilter || 'all'}.csv`);
+            res.setHeader('Content-Disposition', `attachment; filename=campaign_report_${reportTitleDate}.csv`);
             res.send(csvContent);
         }
     } catch (e) {
