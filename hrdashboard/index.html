@@ -266,7 +266,7 @@
                         <i class="ph ph-magnifying-glass"></i>
                         <input type="text" id="search-input" placeholder="Search name, email, role..." onkeyup="searchLogs()">
                     </div>
-                    <input type="text" id="download-date" class="download-date" placeholder="DD_MM_YYYY (optional)">
+                    <input type="date" id="download-date" class="download-date" onchange="filterByDate()">
                     <div style="display: flex; gap: 8px;">
                         <button class="download-btn" onclick="downloadReport('csv')">
                             <i class="ph ph-file-csv" style="color: #10b981;"></i> Excel
@@ -565,11 +565,30 @@
             renderLogs(filtered);
         }
 
+        function filterByDate() {
+            const dateVal = document.getElementById('download-date').value; // YYYY-MM-DD
+            if(!dateVal) {
+                // If cleared, just apply the text search filter if any
+                searchLogs();
+                return;
+            }
+            const [y, m, d] = dateVal.split('-');
+            const selectedDate = new Date(y, m-1, d).toLocaleDateString();
+            
+            const filtered = allLogs.filter(log => {
+                const logDate = new Date(log.date).toLocaleDateString();
+                return logDate === selectedDate;
+            });
+            renderLogs(filtered);
+        }
+
         function downloadReport(format) {
             let url = '/api/campaign/download?format=' + format;
-            const dateFilter = document.getElementById('download-date').value.trim();
-            if (dateFilter) {
-                url += '&date=' + encodeURIComponent(dateFilter);
+            const dateVal = document.getElementById('download-date').value; // YYYY-MM-DD
+            if (dateVal) {
+                const [y, m, d] = dateVal.split('-');
+                const formatted = `${d}_${m}_${y}`; // Backend expects DD_MM_YYYY
+                url += '&date=' + encodeURIComponent(formatted);
             }
             window.open(url, '_blank');
         }
