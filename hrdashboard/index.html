@@ -144,6 +144,18 @@
         .status-badge { padding: 4px 10px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
         .status-Sent { background: #dcfce7; color: #166534; }
         .status-Failed { background: #fee2e2; color: #991b1b; }
+
+        /* Premium Mobile Card Layout for Table */
+        @media (max-width: 768px) {
+            .table-container { background: transparent; border: none; box-shadow: none; padding: 0; }
+            table, thead, tbody, th, td, tr { display: block; min-width: 0; width: 100%; }
+            thead { display: none; }
+            tr { background: white; border-radius: 16px; margin-bottom: 1rem; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 0.5rem; transition: transform 0.2s; }
+            tr:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+            td { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; text-align: right; padding: 0.8rem 1rem; white-space: normal; word-break: break-word; }
+            td:last-child { border-bottom: none; }
+            td:before { content: attr(data-label); font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; text-align: left; margin-right: 1rem; flex-shrink: 0; }
+        }
     </style>
 </head>
 <body>
@@ -516,11 +528,11 @@
                 
                 tbody.innerHTML += `
                     <tr>
-                        <td>${dateStr}</td>
-                        <td style="font-weight: 500;">${log.name}</td>
-                        <td style="color: var(--text-muted);">${log.email}</td>
-                        <td>${log.role}</td>
-                        <td><span class="status-badge ${statusClass}">${log.status}</span></td>
+                        <td data-label="Date & Time">${dateStr}</td>
+                        <td data-label="Name" style="font-weight: 500;">${log.name}</td>
+                        <td data-label="Email" style="color: var(--text-muted);">${log.email}</td>
+                        <td data-label="Role">${log.role}</td>
+                        <td data-label="Status"><span class="status-badge ${statusClass}">${log.status}</span></td>
                     </tr>
                 `;
             });
