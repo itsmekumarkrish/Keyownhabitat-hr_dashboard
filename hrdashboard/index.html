@@ -281,11 +281,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Date & Time</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Total Processed</th>
+                            <th>Successfully Sent</th>
+                            <th>Failed / Invalid</th>
                         </tr>
                     </thead>
                     <tbody id="logs-table-body">
@@ -534,22 +533,38 @@
             tbody.innerHTML = '';
             
             if(logs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No campaigns sent yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">No campaigns sent yet.</td></tr>';
                 return;
             }
 
+            // Aggregate logs by date
+            const dailyData = {};
             logs.forEach(log => {
                 const d = new Date(log.date);
-                const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                const statusClass = 'status-' + log.status; // status-Sent or status-Failed
+                const dateStr = d.toLocaleDateString(); // e.g. 7/7/2026
                 
+                if (!dailyData[dateStr]) {
+                    dailyData[dateStr] = { total: 0, sent: 0, failed: 0, rawDate: d };
+                }
+                
+                dailyData[dateStr].total++;
+                if (log.status === 'Sent') dailyData[dateStr].sent++;
+                else dailyData[dateStr].failed++;
+            });
+            
+            // Convert to array and sort by date descending
+            const aggregated = Object.keys(dailyData).map(dateStr => ({
+                dateStr,
+                ...dailyData[dateStr]
+            })).sort((a, b) => b.rawDate - a.rawDate);
+
+            aggregated.forEach(day => {
                 tbody.innerHTML += `
                     <tr>
-                        <td data-label="Date & Time">${dateStr}</td>
-                        <td data-label="Name" style="font-weight: 500;">${log.name}</td>
-                        <td data-label="Email" style="color: var(--text-muted);">${log.email}</td>
-                        <td data-label="Role">${log.role}</td>
-                        <td data-label="Status"><span class="status-badge ${statusClass}">${log.status}</span></td>
+                        <td data-label="Date" style="font-weight: 600; color: var(--primary);">${day.dateStr}</td>
+                        <td data-label="Total Processed" style="font-weight: 500;">${day.total}</td>
+                        <td data-label="Successfully Sent"><span style="color: #166534; font-weight:600; padding: 4px 10px; background:#dcfce7; border-radius:50px; font-size:0.85rem;">${day.sent}</span></td>
+                        <td data-label="Failed / Invalid"><span style="color: #991b1b; font-weight:600; padding: 4px 10px; background:#fee2e2; border-radius:50px; font-size:0.85rem;">${day.failed}</span></td>
                     </tr>
                 `;
             });
