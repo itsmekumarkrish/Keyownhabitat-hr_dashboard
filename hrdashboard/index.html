@@ -591,18 +591,19 @@
             const btnCsv = document.getElementById('btn-csv');
             const btnPdf = document.getElementById('btn-pdf');
             
-            // Enable buttons if BOTH dates are selected
-            if (startVal && endVal) {
+            // Enable buttons if AT LEAST ONE date is selected
+            if (startVal || endVal) {
                 btnCsv.disabled = false;
                 btnPdf.disabled = false;
-                filterByDateRange(startVal, endVal);
+                
+                const filterStart = startVal || endVal;
+                const filterEnd = endVal || startVal;
+                filterByDateRange(filterStart, filterEnd);
             } else {
                 btnCsv.disabled = true;
                 btnPdf.disabled = true;
-                // If they clear the dates, reset to all logs
-                if (!startVal && !endVal) {
-                    searchLogs();
-                }
+                // If they clear both dates, reset to all logs
+                searchLogs();
             }
         }
 
@@ -620,13 +621,17 @@
         }
 
         function downloadReport(format) {
-            const startVal = document.getElementById('start-date').value;
-            const endVal = document.getElementById('end-date').value;
+            let startVal = document.getElementById('start-date').value;
+            let endVal = document.getElementById('end-date').value;
             
-            if (!startVal || !endVal) {
-                alert("Please select both a Start Date and an End Date to download a report.");
+            if (!startVal && !endVal) {
+                alert("Please select at least one date to download a report.");
                 return;
             }
+
+            // If only one date is provided, assume it's a single day report
+            if (startVal && !endVal) endVal = startVal;
+            if (!startVal && endVal) startVal = endVal;
 
             const [sy, sm, sd] = startVal.split('-');
             const [ey, em, ed] = endVal.split('-');
