@@ -5,3 +5,4 @@ test_candidates.csv
 .DS_Store
 *.csv
 uploads/
+.vercel

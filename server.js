@@ -41,6 +41,13 @@ app.get('/hrdashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'hrdashboard', 'index.html'));
 });
 
+// Ensure uploads directory exists (it's in .gitignore so Render won't have it)
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log('✅ Created uploads/ directory');
+}
+
 // Configure Multer for resume + photo uploads
 const upload = multer({ dest: 'uploads/' });
 
