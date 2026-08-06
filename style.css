@@ -2381,13 +2381,13 @@ h1, h2, h3, .logo {
     .nav-container { padding: 0 24px !important; height: 100%; width: 100%; display: flex; justify-content: space-between; align-items: center; }
     .logo { height: 100%; display: flex; align-items: center; flex-shrink: 0; max-width: 65%; }
     .custom-logo {
-        height: auto !important;
-        width: 180px !important;
+        height: 52px !important;
+        width: auto !important;
         max-width: none !important;
         object-fit: contain;
         flex-shrink: 0;
-        transform: none !important;
-        transform-origin: left center;
+        transform: scale(1.2) !important;
+        transform-origin: left center !important;
     }
     .nav-links { display: none; }
     
@@ -2531,7 +2531,7 @@ h1, h2, h3, .logo {
     .subheadline { font-size: 0.95rem; }
 
     /* Navbar logo */
-    .custom-logo { height: 76px !important; width: auto !important; max-width: none !important; }
+    .custom-logo { height: 50px !important; width: auto !important; max-width: none !important; transform: scale(1.18) !important; transform-origin: left center !important; }
 
     /* Problem grid */
     .problem-grid { gap: 1rem; }
