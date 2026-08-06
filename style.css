@@ -308,43 +308,6 @@ h1, h2, h3, .logo {
     gap: 1.5rem;
 }
 
-/* Hero 4 Trust Pills (Non-clickable) */
-.hero-trust-grid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.85rem;
-    margin-top: 2.2rem;
-    margin-bottom: 1.8rem;
-    max-width: 880px;
-}
-
-.hero-trust-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    padding: 0.65rem 1.15rem;
-    background: rgba(0, 98, 65, 0.04);
-    border: 1px solid rgba(0, 98, 65, 0.12);
-    border-radius: 100px;
-    font-size: 0.88rem;
-    color: var(--text-main);
-    user-select: none;
-    pointer-events: none;
-    box-shadow: 0 2px 8px rgba(0, 98, 65, 0.03);
-}
-
-.hero-trust-pill i {
-    font-size: 1.15rem;
-    color: var(--accent-indigo);
-}
-
-.hero-trust-pill strong {
-    color: var(--accent-indigo);
-    font-weight: 700;
-}
-
 /* Floating Card / Image Wide Layout */
 .hero-visual-wide {
     position: relative;
@@ -2488,33 +2451,9 @@ h1, h2, h3, .logo {
     .badge { font-size: 0.72rem; padding: 0.4rem 0.85rem; margin-bottom: 24px !important; max-width: 95%; white-space: normal; text-align: center; display: inline-flex; align-items: center; justify-content: center; margin-left: auto; margin-right: auto; }
     .headline { font-size: clamp(1.75rem, 7.5vw, 2.3rem) !important; white-space: normal !important; word-break: normal; line-height: 1.25; margin-bottom: 20px !important; text-align: center; }
     .subheadline { max-width: 88% !important; line-height: 1.65 !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important; margin-bottom: 28px !important; font-size: 0.95rem; }
-    .hero-actions { flex-direction: column; width: 100%; padding: 0; gap: 14px !important; align-items: center; margin-bottom: 20px !important; }
+    .hero-actions { flex-direction: column; width: 100%; padding: 0; gap: 16px !important; align-items: center; margin-bottom: 24px !important; }
     .hero-actions .btn { width: 100%; max-width: 100%; box-sizing: border-box; }
-    .hero-trust-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
-    }
-    .hero-trust-pill {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0.65rem 0.5rem !important;
-        font-size: 0.74rem !important;
-        gap: 0.4rem !important;
-        border-radius: 12px !important;
-        text-align: center !important;
-        background: rgba(0, 98, 65, 0.05) !important;
-        border: 1px solid rgba(0, 98, 65, 0.12) !important;
-        box-sizing: border-box;
-    }
-    .hero-trust-pill i { font-size: 1rem !important; }
-    .trust-line { margin-top: 4px !important; margin-bottom: 0 !important; font-size: 0.78rem !important; line-height: 1.5 !important; padding: 0 10px 20px !important; text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important; width: 100%; }
+    .trust-line { margin-top: 16px !important; margin-bottom: 0 !important; font-size: 0.78rem !important; line-height: 1.5 !important; padding: 0 10px 24px !important; text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important; width: 100%; }
 
     /* Partners Marquee */
     .partners-marquee { padding: 30px 0 40px !important; }
