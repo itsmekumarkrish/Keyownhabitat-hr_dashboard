@@ -2376,21 +2376,25 @@ h1, h2, h3, .logo {
     /* Buttons */
     .btn { min-height: 56px; height: 56px; border-radius: 999px; width: 100%; max-width: 380px; font-size: 16px; justify-content: center; text-align: center; display: flex; align-items: center; }
 
-    /* Navbar & Mobile Menu */
-    .logo { flex-shrink: 0; max-width: 75%; }
-    .custom-logo { 
-        height: auto !important; 
-        width: 240px !important; 
-        max-width: none !important; 
-        object-fit: contain; 
-        flex-shrink: 0; 
-        transform: scale(1.2);
+    /* Navbar & Mobile Menu — clean header layout */
+    .navbar { height: 76px !important; padding: 0 !important; display: flex; align-items: center; }
+    .nav-container { padding: 0 24px !important; height: 100%; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { height: 100%; display: flex; align-items: center; flex-shrink: 0; max-width: 65%; }
+    .custom-logo {
+        height: auto !important;
+        width: 180px !important;
+        max-width: none !important;
+        object-fit: contain;
+        flex-shrink: 0;
+        transform: none !important;
         transform-origin: left center;
     }
-    .nav-links { display: none; } /* Hide all nav-links on mobile, hamburger handles it */
+    .nav-links { display: none; }
     
     .mobile-nav-actions {
         display: flex;
+        align-items: center;
+        gap: 16px;
     }
 
     .hamburger { 
@@ -2427,12 +2431,24 @@ h1, h2, h3, .logo {
     /* Floating WhatsApp */
     .whatsapp-floating-btn { display: flex !important; bottom: 100px !important; right: 20px !important; }
 
-    /* Hero */
-    .hero { min-height: 100vh; padding: 120px 0 64px; display: flex; align-items: center; justify-content: center; width: 100%; overflow: hidden; }
-    .headline { font-size: clamp(22px, 6vw, 32px); white-space: nowrap; word-break: normal; line-height: 1.1; }
-    .subheadline { font-size: 16px; padding: 0; margin-bottom: 32px; }
-    .hero-actions { flex-direction: column; width: 100%; padding: 0; gap: 16px; align-items: center; }
-    .hero-actions .btn { width: 100%; max-width: 380px; }
+    /* Hero — min-height:0 removes the blank second screen from the 100vh base rule */
+    .hero, .hero-centered, .hero.hero-centered {
+        height: auto !important;
+        min-height: 0 !important;
+        padding-top: 100px !important;
+        padding-bottom: 40px !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+    .hero-content { width: 100%; max-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .badge { font-size: 0.72rem; padding: 0.4rem 0.85rem; margin-bottom: 28px !important; max-width: 95%; white-space: normal; text-align: center; display: inline-flex; align-items: center; justify-content: center; margin-left: auto; margin-right: auto; }
+    .headline { font-size: clamp(1.75rem, 7.5vw, 2.3rem) !important; white-space: normal !important; word-break: normal; line-height: 1.25; margin-bottom: 24px !important; text-align: center; }
+    .subheadline { max-width: 85% !important; line-height: 1.7 !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important; margin-bottom: 36px !important; font-size: 0.95rem; }
+    .hero-actions { flex-direction: column; width: 100%; padding: 0; gap: 18px !important; align-items: center; margin-bottom: 24px !important; }
+    .hero-actions .btn { width: 100%; max-width: 100%; box-sizing: border-box; }
 
     /* Partners Marquee */
     .partners-marquee { padding: 30px 0 40px !important; }
