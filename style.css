@@ -2529,9 +2529,12 @@ h1, h2, h3, .logo {
     .output-amount { font-size: 1.6rem; }
     .calc-info-alert { padding: 1rem; border-radius: 12px; }
 
-    /* Assessment Form */
-    .form-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-    .input-field, .input-field.full-width { grid-column: span 1; width: 100%; min-height: 52px; }
+    /* Assessment Form Mobile Fix */
+    .assessment-card { padding: 1.5rem 1.2rem !important; width: 100% !important; box-sizing: border-box !important; }
+    .form-grid { display: flex !important; flex-direction: column !important; width: 100% !important; gap: 1.2rem !important; }
+    .input-field, .input-field.full-width { width: 100% !important; grid-column: span 1 !important; flex: 1 1 100% !important; min-height: auto !important; box-sizing: border-box !important; }
+    .input-container { width: 100% !important; box-sizing: border-box !important; }
+    .input-container input { width: 100% !important; box-sizing: border-box !important; }
 
     /* FAQ */
     .faq-trigger { padding: 24px 16px; gap: 16px; }
