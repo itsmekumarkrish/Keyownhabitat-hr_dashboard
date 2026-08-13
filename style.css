@@ -120,6 +120,14 @@ h1, h2, h3, .logo {
     transform-origin: left center;
 }
 
+.desktop-logo {
+    display: block;
+}
+
+.mobile-logo {
+    display: none;
+}
+
 .footer-logo {
     height: auto;
     width: 220px;
@@ -2413,14 +2421,17 @@ h1, h2, h3, .logo {
     .navbar { height: 76px !important; padding: 0 !important; display: flex; align-items: center; }
     .nav-container { padding: 0 24px !important; height: 100%; width: 100%; display: flex; justify-content: space-between; align-items: center; }
     .logo { height: 100%; display: flex; align-items: center; flex-shrink: 0; max-width: 68%; }
-    .custom-logo {
-        height: 58px !important;
+    .desktop-logo { display: none !important; }
+    .mobile-logo {
+        display: block !important;
+        height: 50px !important;
         width: auto !important;
-        max-width: 210px !important;
+        max-width: 170px !important;
         object-fit: contain;
         flex-shrink: 0;
-        transform: scale(1.4) !important;
+        transform: scale(1.15) !important;
         transform-origin: left center !important;
+        mix-blend-mode: multiply;
     }
     .nav-links { display: none; }
     
