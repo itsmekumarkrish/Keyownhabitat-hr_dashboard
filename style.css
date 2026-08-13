@@ -1772,8 +1772,6 @@ h1, h2, h3, .logo {
     margin-top: 0;
     margin-bottom: 0.5rem;
     height: auto;
-    display: flex;
-    align-items: center;
 }
 
 .brand-desc {
