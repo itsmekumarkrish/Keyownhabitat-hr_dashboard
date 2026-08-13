@@ -2475,31 +2475,35 @@ h1, h2, h3, .logo {
     /* Floating WhatsApp */
     .whatsapp-floating-btn { display: flex !important; bottom: 100px !important; right: 20px !important; }
 
-    /* Mobile Hero — Natural, proportional spacing below header with zero large blank gap */
+    /* Mobile Hero — Fills dynamic mobile viewport (100dvh) pushing Partner section completely below fold */
     .hero, .hero-centered, .hero.hero-centered {
         height: auto !important;
-        min-height: 0 !important;
-        margin-top: 76px !important;
-        padding-top: 28px !important;
-        padding-bottom: 0 !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        min-height: -webkit-fill-available !important;
+        margin-top: 0 !important;
+        padding-top: 86px !important;
+        padding-bottom: 16px !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: space-between !important;
         width: 100% !important;
         box-sizing: border-box !important;
         overflow: hidden !important;
         border-bottom: none !important;
     }
     .hero-centered .container {
-        height: auto !important;
-        min-height: 0 !important;
+        flex: 1 !important;
         display: flex !important;
         flex-direction: column !important;
+        justify-content: space-between !important;
         align-items: center !important;
         width: 100% !important;
+        height: 100% !important;
     }
     .hero-content {
+        flex: 1 !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
@@ -2507,14 +2511,15 @@ h1, h2, h3, .logo {
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
+        justify-content: space-between !important;
         margin-bottom: 0 !important;
     }
-    .badge { font-size: 0.75rem; padding: 0.45rem 0.95rem; margin-top: 0 !important; margin-bottom: 24px !important; max-width: 95%; white-space: normal; text-align: center; display: inline-flex; align-items: center; justify-content: center; margin-left: auto; margin-right: auto; }
-    .headline { font-size: clamp(1.85rem, 8vw, 2.35rem) !important; white-space: normal !important; word-break: normal; line-height: 1.25; margin-bottom: 22px !important; text-align: center; }
-    .subheadline { max-width: 90% !important; line-height: 1.65 !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important; margin-bottom: 30px !important; font-size: 0.96rem; }
-    .hero-actions { flex-direction: column; width: 100%; padding: 0; gap: 16px !important; align-items: center; margin-bottom: 32px !important; }
+    .badge { font-size: 0.75rem; padding: 0.45rem 0.95rem; margin-top: 0 !important; margin-bottom: 14px !important; max-width: 95%; white-space: normal; text-align: center; display: inline-flex; align-items: center; justify-content: center; margin-left: auto; margin-right: auto; }
+    .headline { font-size: clamp(1.85rem, 8vw, 2.35rem) !important; white-space: normal !important; word-break: normal; line-height: 1.25; margin-bottom: 14px !important; text-align: center; }
+    .subheadline { max-width: 90% !important; line-height: 1.65 !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important; margin-bottom: 20px !important; font-size: 0.96rem; }
+    .hero-actions { flex-direction: column; width: 100%; padding: 0; gap: 14px !important; align-items: center; margin-bottom: 16px !important; }
     .hero-actions .btn { width: 100%; max-width: 100%; box-sizing: border-box; }
-    .trust-line { margin-top: 0 !important; margin-bottom: 0 !important; font-size: 0.78rem !important; line-height: 1.6 !important; padding: 24px 10px 32px !important; text-align: center; border-top: 1px solid rgba(0, 0, 0, 0.08) !important; width: 100%; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 4px !important; }
+    .trust-line { margin-top: auto !important; margin-bottom: 0 !important; font-size: 0.78rem !important; line-height: 1.6 !important; padding: 14px 10px 8px !important; text-align: center; border-top: 1px solid rgba(0, 0, 0, 0.08) !important; width: 100%; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 4px !important; }
     .trust-part-1 { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; text-align: center !important; }
     .trust-part-1 i { font-size: 1.05rem !important; margin: 0 !important; flex-shrink: 0; color: var(--accent-indigo); }
     .trust-sep { display: none !important; }
