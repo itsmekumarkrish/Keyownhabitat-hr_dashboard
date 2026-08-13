@@ -1769,9 +1769,11 @@ h1, h2, h3, .logo {
 }
 
 .footer-brand .logo {
-    margin-top: -2.5rem;
-    margin-bottom: -2.5rem;
-    height: auto; /* override header logo height */
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    height: auto;
+    display: flex;
+    align-items: center;
 }
 
 .brand-desc {
