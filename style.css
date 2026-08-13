@@ -2412,14 +2412,14 @@ h1, h2, h3, .logo {
     /* Navbar & Mobile Menu — clean header layout */
     .navbar { height: 76px !important; padding: 0 !important; display: flex; align-items: center; }
     .nav-container { padding: 0 24px !important; height: 100%; width: 100%; display: flex; justify-content: space-between; align-items: center; }
-    .logo { height: 100%; display: flex; align-items: center; flex-shrink: 0; max-width: 65%; }
+    .logo { height: 100%; display: flex; align-items: center; flex-shrink: 0; max-width: 68%; }
     .custom-logo {
-        height: 52px !important;
+        height: 58px !important;
         width: auto !important;
-        max-width: none !important;
+        max-width: 210px !important;
         object-fit: contain;
         flex-shrink: 0;
-        transform: scale(1.2) !important;
+        transform: scale(1.4) !important;
         transform-origin: left center !important;
     }
     .nav-links { display: none; }
@@ -2573,7 +2573,7 @@ h1, h2, h3, .logo {
     .subheadline { font-size: 0.95rem; }
 
     /* Navbar logo */
-    .custom-logo { height: 50px !important; width: auto !important; max-width: none !important; transform: scale(1.18) !important; transform-origin: left center !important; }
+    .custom-logo { height: 56px !important; width: auto !important; max-width: 190px !important; transform: scale(1.35) !important; transform-origin: left center !important; }
 
     /* Problem grid */
     .problem-grid { gap: 1rem; }
