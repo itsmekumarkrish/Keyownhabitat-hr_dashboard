@@ -4,7 +4,13 @@ const multer = require('multer');
 const nodemailer = require('nodemailer');
 const PDFDocument = require('pdfkit');
 const mongoose = require('mongoose');
+const dns = require('dns');
 require('dotenv').config();
+
+// Force IPv4 routing globally (Render containers do not support IPv6)
+if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+}
 
 // Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI)
@@ -66,13 +72,14 @@ if (!fs.existsSync(uploadsDir)) {
 // Configure Multer for resume + photo uploads
 const upload = multer({ dest: 'uploads/' });
 
-// Email transporter helper (service: gmail)
+// Email transporter helper (service: gmail with forced IPv4)
 function getTransporter() {
     const rawPass = process.env.GMAIL_APP_PASSWORD || 'lyxsmzkimalvzbet';
     const pass = rawPass.replace(/[\s\u00A0]+/g, '');
     const user = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
     return nodemailer.createTransport({
         service: 'gmail',
+        family: 4, // Force IPv4 routing
         auth: {
             user: user,
             pass: pass
