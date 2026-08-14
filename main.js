@@ -529,19 +529,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalDelay = delay * (msgs.length + 1);
 
         setTimeout(() => {
+            chatInput.disabled = false;
+            chatSend.disabled = false;
             if (step.isEnd) {
                 buildWAButton(step.directWA);
-                chatInput.disabled = true;
-                chatSend.disabled = true;
+                chatInput.placeholder = "Connect on WhatsApp above…";
             } else if (step.opts) {
                 renderOptions(step.opts);
-                chatInput.disabled = true;
-                chatSend.disabled = true;
+                chatInput.placeholder = "Type your reply or select above…";
             } else {
                 // Free-text mode
                 clearOptions();
-                chatInput.disabled = false;
-                chatSend.disabled = false;
+                if (step.capture === 'name') {
+                    chatInput.placeholder = "Type your full name…";
+                } else if (step.capture === 'phone') {
+                    chatInput.placeholder = "Type your 10-digit WhatsApp number…";
+                } else {
+                    chatInput.placeholder = "Type a message…";
+                }
                 chatInput.focus();
             }
         }, totalDelay);
@@ -557,8 +562,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         addMessage(label, true);
         clearOptions();
-        chatInput.disabled = true;
-        chatSend.disabled = true;
         setTimeout(() => runStep(next), 400);
     }
 
@@ -584,6 +587,42 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!val) return;
 
         const curStep = FLOW[state.step];
+
+        // Allow free typing even during option steps
+        if (state.step === 'start' || state.step === 'what_is_hoas') {
+            addMessage(val, true);
+            chatInput.value = '';
+            clearOptions();
+            setTimeout(() => runStep('rent'), 400);
+            return;
+        }
+
+        if (state.step === 'rent') {
+            state.data.rent = val;
+            addMessage(val, true);
+            chatInput.value = '';
+            clearOptions();
+            setTimeout(() => runStep('city'), 400);
+            return;
+        }
+
+        if (state.step === 'city') {
+            state.data.city = val;
+            addMessage(val, true);
+            chatInput.value = '';
+            clearOptions();
+            setTimeout(() => runStep('timeline'), 400);
+            return;
+        }
+
+        if (state.step === 'timeline') {
+            state.data.timeline = val;
+            addMessage(val, true);
+            chatInput.value = '';
+            clearOptions();
+            setTimeout(() => runStep('name'), 400);
+            return;
+        }
 
         // Validation per capture type
         if (curStep && curStep.capture === 'name') {
@@ -612,8 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         addMessage(val, true);
         chatInput.value = '';
-        chatInput.disabled = true;
-        chatSend.disabled = true;
         const next = curStep ? curStep.next : null;
         if (next) setTimeout(() => runStep(next), 400);
     }

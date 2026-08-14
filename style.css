@@ -2813,13 +2813,14 @@ h1, h2, h3, .logo {
     flex-grow: 1;
     border: 1px solid var(--glass-border);
     border-radius: 10px;
-    padding: 0.6rem 0.9rem;
-    font-size: 0.85rem;
+    padding: 0.65rem 0.9rem;
+    font-size: 16px; /* 16px prevents iOS Safari & Chrome mobile viewport auto-zoom */
     font-family: inherit;
     color: var(--text-main);
     background: #f7f8fc;
     outline: none;
-    transition: border-color 0.2s ease;
+    -webkit-appearance: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .chat-input:focus {
@@ -2853,9 +2854,16 @@ h1, h2, h3, .logo {
     .chatbot-window {
         width: calc(100vw - 20px);
         right: 10px;
-        bottom: 100px;
-        height: min(480px, calc(100vh - 120px));
-        max-height: 480px;
+        bottom: 85px;
+        height: min(520px, calc(100dvh - 100px));
+        max-height: 520px;
+        z-index: 99999;
+    }
+    .chat-input-row {
+        padding: 0.6rem 0.8rem;
+    }
+    .chat-input {
+        font-size: 16px;
     }
 }
 
