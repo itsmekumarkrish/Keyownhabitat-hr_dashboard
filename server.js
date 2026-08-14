@@ -382,47 +382,28 @@ app.post('/api/apply', upload.fields([
             console.error('⚠️ MongoDB Save Error:', dbErr.message);
         }
 
-        // ── 1. SAVE APPLICATION TO MONGODB ─────────────────────────────────
-        try {
-            const newApplication = new Application({
-                firstName,
-                lastName,
-                fullName,
-                email,
-                phone,
-                location,
-                role,
-                intro: intro || '',
-                resumeOriginalName: resumeFile ? resumeFile.originalname : '',
-                status: 'Received'
-            });
-            await newApplication.save();
-            console.log(`💾 Saved application to MongoDB for ${fullName} (${role})`);
-        } catch (dbErr) {
-            console.error('⚠️ MongoDB Save Error:', dbErr.message);
-        }
-
         // Return instant response to user immediately (no waiting/hanging!)
         res.json({ success: true, message: 'Application submitted! Our HR team will review your profile.' });
 
         // ── 2. SEND HR NOTIFICATION & CANDIDATE CONFIRMATION EMAILS IN BACKGROUND ──
+        const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
         (async () => {
             try {
                 await transporter.sendMail({
-                    from: `"KeyOwn Habitat Careers" <${process.env.GMAIL_USER}>`,
-                    to: process.env.GMAIL_USER,
+                    from: `"KeyOwn Habitat Careers" <${hrEmail}>`,
+                    to: hrEmail,
                     subject: `🆕 New Application: ${fullName} — ${role}`,
                     html: hrHTML,
                     attachments: hrAttachments
                 });
 
                 await transporter.sendMail({
-                    from: `"KeyOwn Habitat HR" <${process.env.GMAIL_USER}>`,
-                    to: email,
+                    from: `"KeyOwn Habitat HR" <${hrEmail}>`,
+                    to: email.trim(),
                     subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
                     html: candidateHTML
                 });
-                console.log(`📧 Emails sent successfully for ${fullName}`);
+                console.log(`📧 Emails sent successfully for ${fullName} to HR and ${email}`);
             } catch (mailErr) {
                 console.error('⚠️ Nodemailer Sending Error (Check GMAIL_APP_PASSWORD):', mailErr.message);
             } finally {
