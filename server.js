@@ -468,26 +468,27 @@ app.post('/api/apply', upload.fields([
         res.json({ success: true, message: 'Application submitted! Our HR team will review your profile.' });
 
         // ── 2. SEND HR NOTIFICATION & CANDIDATE CONFIRMATION EMAILS IN BACKGROUND ──
-        const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
         (async () => {
             try {
-                // 1. Send HR Alert via Resend HTTPS API (Never blocked by Render!)
+                // 1. Send HR Alert via Resend (Always arrives with resume attached!)
                 await sendEmailViaResend({
-                    to: ['itsmekumarkrish@gmail.com', hrEmail],
+                    to: 'itsmekumarkrish@gmail.com',
                     subject: `🆕 New Application: ${fullName} — ${role}`,
                     html: hrHTML,
                     attachments: hrAttachments,
                     fromName: 'KeyOwn Habitat Careers'
                 });
 
-                // 2. Send Candidate Confirmation
-                await sendEmailViaResend({
-                    to: email.trim(),
-                    subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
-                    html: candidateHTML,
-                    fromName: 'KeyOwn Habitat HR'
-                });
-                console.log(`📧 Resend emails dispatched for ${fullName} to HR and ${email}`);
+                // 2. Send Candidate Confirmation (active for candidates once domain is added on resend.com/domains)
+                if (email.trim() !== 'itsmekumarkrish@gmail.com') {
+                    await sendEmailViaResend({
+                        to: email.trim(),
+                        subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
+                        html: candidateHTML,
+                        fromName: 'KeyOwn Habitat HR'
+                    });
+                }
+                console.log(`📧 Resend emails processed for ${fullName}`);
             } catch (mailErr) {
                 console.error('⚠️ Email Sending Error:', mailErr.message);
             } finally {
@@ -520,7 +521,6 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
         // 1. Send Alert Email to KeyOwn Team & Welcome Email to Customer in background
         (async () => {
             try {
-                const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
                 const teamHTML = `
                     <h2>🚨 New Free Assessment Lead!</h2>
                     <p>A new customer has requested a Home Ownership Assessment.</p>
@@ -533,7 +533,7 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
                 `;
 
                 await sendEmailViaResend({
-                    to: ['itsmekumarkrish@gmail.com', hrEmail],
+                    to: 'itsmekumarkrish@gmail.com',
                     subject: `🚨 NEW LEAD: ${name} from ${city}`,
                     html: teamHTML,
                     fromName: 'KeyOwn AutoPilot'
@@ -563,13 +563,15 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
 </body>
 </html>`;
 
-                await sendEmailViaResend({
-                    to: email.trim(),
-                    subject: `Your Free Assessment is Processing! | KeyOwn Habitat`,
-                    html: customerHTML,
-                    fromName: 'KeyOwn Habitat'
-                });
-                console.log(`📧 Assessment emails sent for ${name}`);
+                if (email.trim() !== 'itsmekumarkrish@gmail.com') {
+                    await sendEmailViaResend({
+                        to: email.trim(),
+                        subject: `Your Free Assessment is Processing! | KeyOwn Habitat`,
+                        html: customerHTML,
+                        fromName: 'KeyOwn Habitat'
+                    });
+                }
+                console.log(`📧 Assessment emails processed for ${name}`);
             } catch (err) {
                 console.error('⚠️ Assessment email error:', err.message);
             }
