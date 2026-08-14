@@ -583,6 +583,82 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
     }
 });
 
+// ─── Gemini AI HOAS Chatbot Endpoint ─────────────────────────────────────────
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+let genAI = null;
+if (process.env.GEMINI_API_KEY) {
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+}
+
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { message, history = [] } = req.body;
+        if (!message) {
+            return res.status(400).json({ error: 'Message is required.' });
+        }
+
+        if (!genAI && process.env.GEMINI_API_KEY) {
+            genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        }
+
+        if (!genAI) {
+            return res.json({
+                reply: "I'd love to help you plan your homeownership journey! Which city are you looking to buy a home in (e.g. Bangalore, Mysuru)?",
+                suggestedOptions: ['🏙 Bangalore', '🏙 Mysuru', '🏙 Mumbai', '🏙 Pune']
+            });
+        }
+
+        const model = genAI.getGenerativeModel({
+            model: 'gemini-3.5-flash',
+            systemInstruction: `You are the friendly, intelligent AI HOAS Advisor for KeyOwn Habitat (keyownhabitat.com) based in Bangalore & Mysuru, India.
+KeyOwn Habitat is India's first Home Ownership Advisory Service (HOAS), helping renters and first-time home seekers turn their rent or savings into homeownership through a structured 120-month Downpayment & Equity matching roadmap.
+
+Guidelines:
+1. Keep replies concise (1 to 2 short sentences max) so they fit nicely into chat bubbles.
+2. Be warm, empathetic, and encouraging. If the user doesn't pay rent, lives with family, or is a student/freelancer, congratulate them because their savings rate will be higher!
+3. Proactively guide them to share:
+   - Target City (Bangalore, Mysuru, Mumbai, Pune, Hyderabad, Delhi NCR, etc.)
+   - Monthly Rent or Savings capacity
+   - Timeline (Within 1 yr, 1-3 yrs, etc.)
+   - Phone/WhatsApp number for a personalized roadmap.
+4. When they provide a phone number, thank them and tell them an advisor will reach out shortly.
+5. If they ask for direct contact or pricing, invite them to connect on WhatsApp.`
+        });
+
+        // Format history for Gemini chat
+        const formattedHistory = (history || []).slice(-6).map(h => ({
+            role: h.role === 'user' ? 'user' : 'model',
+            parts: [{ text: h.text }]
+        }));
+
+        const chat = model.startChat({ history: formattedHistory });
+        const result = await chat.sendMessage(message);
+        const reply = result.response.text().trim();
+
+        // Dynamically suggest quick chips based on context
+        let suggestedOptions = [];
+        const lowerReply = reply.toLowerCase();
+
+        if (lowerReply.includes('city') || lowerReply.includes('where') || lowerReply.includes('bangalore') || lowerReply.includes('mysuru')) {
+            suggestedOptions = ['🏙 Bangalore', '🏙 Mysuru', '🏙 Mumbai', '🏙 Hyderabad', '🏙 Pune'];
+        } else if (lowerReply.includes('rent') || lowerReply.includes('budget') || lowerReply.includes('paying') || lowerReply.includes('save') || lowerReply.includes('saving')) {
+            suggestedOptions = ['₹15,000 – ₹30,000', '₹30,000 – ₹60,000', '₹60,000 – ₹1,00,000', 'Living with parents / No rent'];
+        } else if (lowerReply.includes('when') || lowerReply.includes('timeline') || lowerReply.includes('years') || lowerReply.includes('planning')) {
+            suggestedOptions = ['⚡ Within 1 year', '📅 1 – 3 years', '🗓 3 – 5 years'];
+        }
+
+        res.json({ reply, suggestedOptions });
+
+    } catch (err) {
+        console.error('Chat error:', err.message);
+        res.json({
+            reply: "That sounds great! Could you share which city you are planning to buy your home in (e.g. Bangalore, Mysuru)?",
+            suggestedOptions: ['🏙 Bangalore', '🏙 Mysuru', '🏙 Other City']
+        });
+    }
+});
+
 // ─── Admin Dashboard Endpoints ──────────────────────────────────────────────
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'keyown2026';
 const ADMIN_TOKEN = 'keyown-secure-token-9988';

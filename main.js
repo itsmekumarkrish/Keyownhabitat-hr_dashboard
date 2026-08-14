@@ -457,6 +457,12 @@ document.addEventListener('DOMContentLoaded', () => {
     resetState();
 
     // ---- Helpers ----
+    const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? ''
+        : 'https://keyownhabitat-hr-dashboard.onrender.com';
+
+    let conversationHistory = [];
+
     function scrollBottom() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -476,6 +482,13 @@ document.addEventListener('DOMContentLoaded', () => {
         el.textContent = text;
         chatMessages.appendChild(el);
         scrollBottom();
+
+        // Track history for AI context
+        conversationHistory.push({
+            role: isUser ? 'user' : 'model',
+            text: text
+        });
+
         return el;
     }
 
@@ -495,12 +508,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function renderDynamicOptions(options) {
+        clearOptions();
+        if (!options || options.length === 0) return;
+        options.forEach(optText => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-opt';
+            btn.textContent = optText;
+            btn.addEventListener('click', () => {
+                handleAiInteraction(optText);
+            });
+            chatOptions.appendChild(btn);
+        });
+    }
+
     function buildWAButton(directOnly) {
         const userData = state.data;
         const text = directOnly
             ? 'Hi! I want to know more about KeyOwn Habitat HOAS.'
-            : `Hi! I'm ${userData.name || 'interested'}. I pay ${userData.rent || ''} rent and want to own a home in ${userData.city || ''}. My phone: ${userData.phone || ''}. Please guide me!`;
-        const url = `https://wa.me/919876543210?text=${encodeURIComponent(text)}`;
+            : `Hi! I'm interested in KeyOwn Habitat HOAS. My details: City: ${userData.city || 'Bangalore'}, Rent/Savings: ${userData.rent || 'N/A'}, Phone: ${userData.phone || ''}. Please guide me!`;
+        const url = `https://wa.me/919886535949?text=${encodeURIComponent(text)}`;
         chatOptions.innerHTML = `
             <a href="${url}" target="_blank" class="btn btn-primary"
                style="text-decoration:none; text-align:center; justify-content:center; width:100%; font-size:0.88rem;">
@@ -554,7 +581,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---- Option click ----
     function handleOptionClick(label, next) {
-        // Track data by step
         const curStep = FLOW[state.step];
         if (state.step === 'rent') state.data.rent = label;
         if (state.step === 'city') state.data.city = label.replace(/🏙 /, '');
@@ -565,94 +591,53 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => runStep(next), 400);
     }
 
-    // ---- Free-text send ----
-    function showInputError(msg) {
-        // Remove any existing error
-        const existing = document.getElementById('chat-input-error');
-        if (existing) existing.remove();
-        const err = document.createElement('div');
-        err.id = 'chat-input-error';
-        err.style.cssText = 'font-size:0.75rem; color:#ef4444; padding:0 1rem 0.4rem; background:#fff;';
-        err.textContent = msg;
-        chatInput.parentElement.insertAdjacentElement('beforebegin', err);
-        chatInput.style.borderColor = '#ef4444';
-        setTimeout(() => {
-            err.remove();
-            chatInput.style.borderColor = '';
-        }, 3000);
+    // ---- AI Intelligent Response Handler ----
+    async function handleAiInteraction(userText) {
+        addMessage(userText, true);
+        chatInput.value = '';
+        clearOptions();
+        showTyping(true);
+
+        // Check if user shared a phone number
+        const digits = userText.replace(/[\s\-\+]/g, '');
+        const isPhone = /^[6-9]\d{9}$/.test(digits);
+        if (isPhone) {
+            state.data.phone = digits;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/api/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: userText,
+                    history: conversationHistory.slice(-8)
+                })
+            });
+
+            const data = await res.json();
+            showTyping(false);
+
+            if (data.reply) {
+                addMessage(data.reply);
+            }
+
+            if (isPhone) {
+                buildWAButton(false);
+            } else if (data.suggestedOptions && data.suggestedOptions.length > 0) {
+                renderDynamicOptions(data.suggestedOptions);
+            }
+        } catch (e) {
+            showTyping(false);
+            addMessage("Thanks for sharing! Which city are you planning to buy your home in (e.g. Bangalore, Mysuru)?");
+            renderDynamicOptions(['🏙 Bangalore', '🏙 Mysuru', '🏙 Other City']);
+        }
     }
 
     function handleFreeText() {
         const val = chatInput.value.trim();
         if (!val) return;
-
-        const curStep = FLOW[state.step];
-
-        // Allow free typing even during option steps
-        if (state.step === 'start' || state.step === 'what_is_hoas') {
-            addMessage(val, true);
-            chatInput.value = '';
-            clearOptions();
-            setTimeout(() => runStep('rent'), 400);
-            return;
-        }
-
-        if (state.step === 'rent') {
-            state.data.rent = val;
-            addMessage(val, true);
-            chatInput.value = '';
-            clearOptions();
-            setTimeout(() => runStep('city'), 400);
-            return;
-        }
-
-        if (state.step === 'city') {
-            state.data.city = val;
-            addMessage(val, true);
-            chatInput.value = '';
-            clearOptions();
-            setTimeout(() => runStep('timeline'), 400);
-            return;
-        }
-
-        if (state.step === 'timeline') {
-            state.data.timeline = val;
-            addMessage(val, true);
-            chatInput.value = '';
-            clearOptions();
-            setTimeout(() => runStep('name'), 400);
-            return;
-        }
-
-        // Validation per capture type
-        if (curStep && curStep.capture === 'name') {
-            if (val.length < 2 || !/^[a-zA-Z\s]+$/.test(val)) {
-                showInputError('⚠️ Please enter a valid name (letters only, min 2 characters).');
-                return;
-            }
-        }
-
-        if (curStep && curStep.capture === 'phone') {
-            const digits = val.replace(/[\s\-\+]/g, '');
-            if (!/^[6-9]\d{9}$/.test(digits)) {
-                showInputError('⚠️ Please enter a valid 10-digit Indian mobile number (starts with 6–9).');
-                chatInput.select();
-                return;
-            }
-        }
-
-        // Clear any previous error styling
-        const existing = document.getElementById('chat-input-error');
-        if (existing) existing.remove();
-        chatInput.style.borderColor = '';
-
-        if (curStep && curStep.capture) {
-            state.data[curStep.capture] = val;
-        }
-        addMessage(val, true);
-        chatInput.value = '';
-        const next = curStep ? curStep.next : null;
-        if (next) setTimeout(() => runStep(next), 400);
+        handleAiInteraction(val);
     }
 
     chatSend.addEventListener('click', handleFreeText);
