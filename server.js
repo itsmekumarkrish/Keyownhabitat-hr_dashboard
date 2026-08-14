@@ -66,13 +66,35 @@ if (!fs.existsSync(uploadsDir)) {
 // Configure Multer for resume + photo uploads
 const upload = multer({ dest: 'uploads/' });
 
-// Email transporter setup
-const gmailPassword = (process.env.GMAIL_APP_PASSWORD || '').replace(/[\s\u00A0]+/g, '');
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim(),
-        pass: gmailPassword
+// Email transporter helper (explicit SMTP settings + fallback)
+function getTransporter() {
+    const rawPass = process.env.GMAIL_APP_PASSWORD || 'lyxsmzkimalvzbet';
+    const pass = rawPass.replace(/[\s\u00A0]+/g, '');
+    const user = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
+    return nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: { user, pass }
+    });
+}
+
+// ─── Diagnostic Email Test Endpoint ─────────────────────────────────────────
+app.get('/api/test-email', async (req, res) => {
+    try {
+        const target = req.query.to || 'hr@keyownhabitat.com';
+        const transporter = getTransporter();
+        const info = await transporter.sendMail({
+            from: `"KeyOwn Habitat Test" <hr@keyownhabitat.com>`,
+            to: target,
+            subject: `🎯 KeyOwn Email Live Test — ${new Date().toLocaleTimeString()}`,
+            html: `<h3>Test Email Delivery Successful!</h3><p>Time: ${new Date().toISOString()}</p><p>Recipient: ${target}</p>`
+        });
+        console.log('✅ Test email sent:', info.messageId);
+        res.json({ success: true, messageId: info.messageId, recipient: target });
+    } catch (err) {
+        console.error('❌ Test email failed:', err);
+        res.status(500).json({ error: err.message, stack: err.stack });
     }
 });
 
@@ -389,6 +411,7 @@ app.post('/api/apply', upload.fields([
         const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
         (async () => {
             try {
+                const transporter = getTransporter();
                 await transporter.sendMail({
                     from: `"KeyOwn Habitat Careers" <${hrEmail}>`,
                     to: hrEmail,
@@ -436,6 +459,8 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
         // 1. Send Alert Email to KeyOwn Team & Welcome Email to Customer in background
         (async () => {
             try {
+                const transporter = getTransporter();
+                const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
                 const teamHTML = `
                     <h2>🚨 New Free Assessment Lead!</h2>
                     <p>A new customer has requested a Home Ownership Assessment.</p>
@@ -448,8 +473,8 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
                 `;
 
                 await transporter.sendMail({
-                    from: `"KeyOwn AutoPilot" <${process.env.GMAIL_USER}>`,
-                    to: process.env.GMAIL_USER,
+                    from: `"KeyOwn AutoPilot" <${hrEmail}>`,
+                    to: hrEmail,
                     subject: `🚨 NEW LEAD: ${name} from ${city}`,
                     html: teamHTML
                 });
@@ -479,8 +504,8 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
 </html>`;
 
                 await transporter.sendMail({
-                    from: `"KeyOwn Habitat" <${process.env.GMAIL_USER}>`,
-                    to: email,
+                    from: `"KeyOwn Habitat" <${hrEmail}>`,
+                    to: email.trim(),
                     subject: `Your Free Assessment is Processing! | KeyOwn Habitat`,
                     html: customerHTML
                 });
