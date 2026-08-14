@@ -66,16 +66,17 @@ if (!fs.existsSync(uploadsDir)) {
 // Configure Multer for resume + photo uploads
 const upload = multer({ dest: 'uploads/' });
 
-// Email transporter helper (explicit SMTP settings + fallback)
+// Email transporter helper (service: gmail)
 function getTransporter() {
     const rawPass = process.env.GMAIL_APP_PASSWORD || 'lyxsmzkimalvzbet';
     const pass = rawPass.replace(/[\s\u00A0]+/g, '');
     const user = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
     return nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: { user, pass }
+        service: 'gmail',
+        auth: {
+            user: user,
+            pass: pass
+        }
     });
 }
 
