@@ -87,22 +87,74 @@ function getTransporter() {
     });
 }
 
+// ─── RESEND HTTPS EMAIL DISPATCHER (Never blocked by cloud hosts) ─────────────
+async function sendEmailViaResend({ to, subject, html, attachments = [], fromName = 'KeyOwn Habitat' }) {
+    try {
+        const apiKey = (process.env.RESEND_API_KEY || '').trim();
+        if (!apiKey) {
+            console.log('ℹ️ [Resend] No RESEND_API_KEY set, skipping Resend.');
+            return { success: false, error: 'No RESEND_API_KEY' };
+        }
+
+        const fromAddress = process.env.RESEND_FROM_EMAIL || `${fromName} <onboarding@resend.dev>`;
+        
+        // Format attachments for Resend if provided
+        const formattedAttachments = attachments.map(att => {
+            if (att.path && fs.existsSync(att.path)) {
+                return {
+                    filename: att.filename,
+                    content: fs.readFileSync(att.path).toString('base64')
+                };
+            }
+            return att;
+        });
+
+        const recipients = Array.isArray(to) ? to : [to];
+
+        const payload = {
+            from: fromAddress,
+            to: recipients,
+            subject,
+            html,
+            ...(formattedAttachments.length > 0 ? { attachments: formattedAttachments } : {})
+        };
+
+        const res = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            console.log(`🚀 [Resend] Email sent to ${recipients.join(', ')}:`, data.id);
+            return { success: true, id: data.id };
+        } else {
+            console.error(`⚠️ [Resend] API Error (${res.status}):`, data);
+            return { success: false, error: data.message };
+        }
+    } catch (e) {
+        console.error('⚠️ [Resend] Network error:', e.message);
+        return { success: false, error: e.message };
+    }
+}
+
 // ─── Diagnostic Email Test Endpoint ─────────────────────────────────────────
 app.get('/api/test-email', async (req, res) => {
-    try {
-        const target = req.query.to || 'hr@keyownhabitat.com';
-        const transporter = getTransporter();
-        const info = await transporter.sendMail({
-            from: `"KeyOwn Habitat Test" <hr@keyownhabitat.com>`,
-            to: target,
-            subject: `🎯 KeyOwn Email Live Test — ${new Date().toLocaleTimeString()}`,
-            html: `<h3>Test Email Delivery Successful!</h3><p>Time: ${new Date().toISOString()}</p><p>Recipient: ${target}</p>`
-        });
-        console.log('✅ Test email sent:', info.messageId);
-        res.json({ success: true, messageId: info.messageId, recipient: target });
-    } catch (err) {
-        console.error('❌ Test email failed:', err);
-        res.status(500).json({ error: err.message, stack: err.stack });
+    const target = req.query.to || 'itsmekumarkrish@gmail.com';
+    const result = await sendEmailViaResend({
+        to: target,
+        subject: `🎯 KeyOwn Email Live Test — ${new Date().toLocaleTimeString()}`,
+        html: `<h3>Test Email Delivery Successful!</h3><p>Time: ${new Date().toISOString()}</p><p>Recipient: ${target}</p>`
+    });
+    
+    if (result.success) {
+        res.json({ success: true, resendId: result.id, recipient: target });
+    } else {
+        res.status(500).json({ error: result.error });
     }
 });
 
@@ -419,24 +471,25 @@ app.post('/api/apply', upload.fields([
         const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
         (async () => {
             try {
-                const transporter = getTransporter();
-                await transporter.sendMail({
-                    from: `"KeyOwn Habitat Careers" <${hrEmail}>`,
-                    to: hrEmail,
+                // 1. Send HR Alert via Resend HTTPS API (Never blocked by Render!)
+                await sendEmailViaResend({
+                    to: ['itsmekumarkrish@gmail.com', hrEmail],
                     subject: `🆕 New Application: ${fullName} — ${role}`,
                     html: hrHTML,
-                    attachments: hrAttachments
+                    attachments: hrAttachments,
+                    fromName: 'KeyOwn Habitat Careers'
                 });
 
-                await transporter.sendMail({
-                    from: `"KeyOwn Habitat HR" <${hrEmail}>`,
+                // 2. Send Candidate Confirmation
+                await sendEmailViaResend({
                     to: email.trim(),
                     subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
-                    html: candidateHTML
+                    html: candidateHTML,
+                    fromName: 'KeyOwn Habitat HR'
                 });
-                console.log(`📧 Emails sent successfully for ${fullName} to HR and ${email}`);
+                console.log(`📧 Resend emails dispatched for ${fullName} to HR and ${email}`);
             } catch (mailErr) {
-                console.error('⚠️ Nodemailer Sending Error (Check GMAIL_APP_PASSWORD):', mailErr.message);
+                console.error('⚠️ Email Sending Error:', mailErr.message);
             } finally {
                 // Clean up uploaded temp files safely
                 if (resumeFile && resumeFile.path) fs.unlink(resumeFile.path, () => {});
@@ -467,7 +520,6 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
         // 1. Send Alert Email to KeyOwn Team & Welcome Email to Customer in background
         (async () => {
             try {
-                const transporter = getTransporter();
                 const hrEmail = (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim();
                 const teamHTML = `
                     <h2>🚨 New Free Assessment Lead!</h2>
@@ -480,11 +532,11 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
                     <p>Please assign an advisor to call this lead ASAP.</p>
                 `;
 
-                await transporter.sendMail({
-                    from: `"KeyOwn AutoPilot" <${hrEmail}>`,
-                    to: hrEmail,
+                await sendEmailViaResend({
+                    to: ['itsmekumarkrish@gmail.com', hrEmail],
                     subject: `🚨 NEW LEAD: ${name} from ${city}`,
-                    html: teamHTML
+                    html: teamHTML,
+                    fromName: 'KeyOwn AutoPilot'
                 });
 
                 const customerHTML = `
@@ -511,11 +563,11 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
 </body>
 </html>`;
 
-                await transporter.sendMail({
-                    from: `"KeyOwn Habitat" <${hrEmail}>`,
+                await sendEmailViaResend({
                     to: email.trim(),
                     subject: `Your Free Assessment is Processing! | KeyOwn Habitat`,
-                    html: customerHTML
+                    html: customerHTML,
+                    fromName: 'KeyOwn Habitat'
                 });
                 console.log(`📧 Assessment emails sent for ${name}`);
             } catch (err) {
