@@ -67,11 +67,12 @@ if (!fs.existsSync(uploadsDir)) {
 const upload = multer({ dest: 'uploads/' });
 
 // Email transporter setup
+const gmailPassword = (process.env.GMAIL_APP_PASSWORD || '').replace(/[\s\u00A0]+/g, '');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD
+        user: (process.env.GMAIL_USER || 'hr@keyownhabitat.com').trim(),
+        pass: gmailPassword
     }
 });
 
