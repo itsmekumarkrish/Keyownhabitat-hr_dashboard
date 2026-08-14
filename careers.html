@@ -125,6 +125,22 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        #job-selection-view .badge {
+            margin-top: 0 !important;
+            margin-bottom: 1.2rem !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.5rem !important;
+        }
+
+        #job-selection-view .headline {
+            margin-top: 0 !important;
+            margin-bottom: 1rem !important;
+            line-height: 1.25 !important;
+            font-size: clamp(2.2rem, 5vw, 3.2rem) !important;
+        }
+
         #job-selection-view.fade-out {
             opacity: 0;
             transform: translateY(-20px) scale(0.95);
@@ -224,9 +240,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid rgba(0, 98, 65, 0.1);
+            width: 100%;
         }
 
         .jd-accordion {
@@ -486,14 +505,16 @@
             background: transparent;
             border: none;
             color: var(--text-muted, #6C736A);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             cursor: pointer;
             transition: color 0.3s;
             font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .back-btn:hover {
@@ -503,13 +524,16 @@
         .role-badge {
             background: rgba(203, 162, 88, 0.15); /* Gold tint */
             color: #a8813c;
-            padding: 0.5rem 1.2rem;
+            padding: 0.45rem 1.1rem;
             border-radius: 100px;
             font-size: 0.85rem;
             font-weight: 600;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            max-width: 100%;
+            white-space: normal;
+            word-break: break-word;
         }
 
     </style>
@@ -638,7 +662,7 @@
 
             <!-- VIEW 2: Application Form -->
             <div id="seamless-chat-view" style="display:none; width: 100%; max-width: 800px;">
-                <div class="chat-header-inline" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div class="chat-header-inline">
                     <button type="button" onclick="backToJobs(event)" class="back-btn"><i class="ph ph-arrow-left"></i> Back to Roles</button>
                     <div class="role-badge"><i class="ph ph-briefcase"></i> <span id="current-role-badge">Role</span></div>
                 </div>
@@ -736,6 +760,12 @@
                     <a href="https://www.keyownhabitat.com" target="_blank"><i class="ph ph-globe"></i> www.keyownhabitat.com</a>
                     <a href="mailto:hello@keyownhabitat.com"><i class="ph ph-envelope"></i> hello@keyownhabitat.com</a>
                 </div>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/keyownhabitat" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-btn"><i class="ph ph-facebook-logo"></i></a>
+                    <a href="https://www.instagram.com/keyownhabitat" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-btn"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="#" aria-label="Twitter" class="social-icon-btn"><i class="ph ph-twitter-logo"></i></a>
+                    <a href="#" aria-label="LinkedIn" class="social-icon-btn"><i class="ph ph-linkedin-logo"></i></a>
+                </div>
             </div>
             
             <div class="footer-links">
@@ -743,11 +773,13 @@
                     <h4>Quick Links</h4>
                     <a href="terms.html">Terms & Conditions</a>
                     <a href="privacy.html">Privacy Policy</a>
-                    <a href="careers.html">Careers</a>
+                    <a href="refund.html">Refund & Cancellation</a>
+                    <a href="security.html">Security & Trust</a>
                 </div>
                 <div class="links-column">
                     <h4>More</h4>
                     <a href="index.html#about">About HOAS</a>
+                    <a href="careers.html">Careers</a>
                     <a href="#">Contact Us</a>
                 </div>
             </div>

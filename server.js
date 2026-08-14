@@ -20,6 +20,21 @@ const campaignSchema = new mongoose.Schema({
     status: String
 });
 const CampaignLog = mongoose.model('CampaignLog', campaignSchema);
+
+const applicationSchema = new mongoose.Schema({
+    date: { type: Date, default: Date.now },
+    firstName: String,
+    lastName: String,
+    fullName: String,
+    email: String,
+    phone: String,
+    location: String,
+    role: String,
+    intro: String,
+    resumeOriginalName: String,
+    status: { type: String, default: 'Received' }
+});
+const Application = mongoose.model('Application', applicationSchema);
 const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
@@ -346,130 +361,52 @@ app.post('/api/apply', upload.fields([
 </body>
 </html>`;
 
-        await transporter.sendMail({
-            from: `"KeyOwn Habitat Careers" <${process.env.GMAIL_USER}>`,
-            to: process.env.GMAIL_USER,
-            subject: `🆕 New Application: ${fullName} — ${role}`,
-            html: hrHTML,
-            attachments: hrAttachments
-        });
+        // ── 1. SAVE APPLICATION TO MONGODB ─────────────────────────────────
+        try {
+            const newApplication = new Application({
+                firstName,
+                lastName,
+                fullName,
+                email,
+                phone,
+                location,
+                role,
+                intro: intro || '',
+                resumeOriginalName: resumeFile ? resumeFile.originalname : '',
+                status: 'Received'
+            });
+            await newApplication.save();
+            console.log(`💾 Saved application to MongoDB for ${fullName} (${role})`);
+        } catch (dbErr) {
+            console.error('⚠️ MongoDB Save Error:', dbErr.message);
+        }
 
-        // ── 2. CANDIDATE CONFIRMATION EMAIL ───────────────────────────────
-        const candidateHTML = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: 'Arial', sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-    .wrapper { max-width: 620px; margin: 30px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .header { background: linear-gradient(135deg, #006241, #00a86b); padding: 36px; text-align: center; }
-    .header img { width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; padding: 12px; }
-    .header h1 { color: #ffffff; margin: 16px 0 6px; font-size: 24px; font-weight: 700; }
-    .header p { color: rgba(255,255,255,0.9); margin: 0; font-size: 15px; }
-    .body { padding: 36px; }
-    .greeting { font-size: 18px; font-weight: 600; color: #222; margin-bottom: 12px; }
-    .text { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 16px; }
-    .highlight-box { background: linear-gradient(135deg, #f0faf5, #e8f5ef); border-radius: 12px; padding: 20px 24px; margin: 24px 0; }
-    .highlight-box h3 { color: #006241; margin: 0 0 12px; font-size: 15px; }
-    .steps-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .steps-table td { padding-bottom: 14px; vertical-align: top; }
-    .step-num-cell { width: 28px; padding-right: 12px; }
-    .step-num { background: #006241; color: #fff; border-radius: 50%; width: 24px; height: 24px; display: inline-block; text-align: center; line-height: 24px; font-size: 12px; font-weight: bold; }
-    .step-text { font-size: 13px; color: #444; line-height: 1.6; margin: 0; padding-top: 2px; }
-    .role-badge { display: inline-block; background: #006241; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin: 8px 0; }
-    .docs-section { background: #fff8f0; border-radius: 12px; padding: 20px 24px; margin: 20px 0; border: 1px solid #ffe0b2; }
-    .docs-section h3 { color: #e65100; margin: 0 0 10px; font-size: 14px; }
-    .doc-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555; margin: 6px 0; }
-    .divider { border: none; border-top: 1px solid #eee; margin: 28px 0; }
-    .contact-info { text-align: center; }
-    .contact-info p { font-size: 13px; color: #888; margin: 4px 0; }
-    .contact-info a { color: #006241; text-decoration: none; font-weight: 500; }
-    .footer { background: #f9f9f9; padding: 20px 36px; border-top: 1px solid #eee; text-align: center; font-size: 12px; color: #aaa; }
-  </style>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="header">
-      <h1>🎉 Application Received!</h1>
-      <p>Thank you for applying to KeyOwn Habitat</p>
-    </div>
-    <div class="body">
-      <div class="greeting">Dear ${firstName},</div>
-      <p class="text">
-        We are thrilled to have received your application! Your profile has been submitted successfully for the following position:
-      </p>
-      <div style="text-align:center; margin: 16px 0;">
-        <span class="role-badge">📌 ${role}</span>
-      </div>
-      <p class="text">
-        Our HR team will carefully review your application and be in touch with you shortly.
-      </p>
+        // ── 2. SEND HR NOTIFICATION & CANDIDATE CONFIRMATION EMAILS ────────
+        try {
+            await transporter.sendMail({
+                from: `"KeyOwn Habitat Careers" <${process.env.GMAIL_USER}>`,
+                to: process.env.GMAIL_USER,
+                subject: `🆕 New Application: ${fullName} — ${role}`,
+                html: hrHTML,
+                attachments: hrAttachments
+            });
 
-      <div class="highlight-box">
-        <h3>📋 What Happens Next?</h3>
-        <table class="steps-table">
-          <tr>
-            <td class="step-num-cell"><div class="step-num">1</div></td>
-            <td><p class="step-text"><strong>Application Review</strong> — Our HR team will carefully review your resume and profile.</p></td>
-          </tr>
-          <tr>
-            <td class="step-num-cell"><div class="step-num">2</div></td>
-            <td><p class="step-text"><strong>Initial Screening Call</strong> — If shortlisted, you will receive a call for a brief introductory conversation.</p></td>
-          </tr>
-          <tr>
-            <td class="step-num-cell"><div class="step-num">3</div></td>
-            <td><p class="step-text"><strong>Interview Round</strong> — Attend an in-person or virtual interview with our team leads.</p></td>
-          </tr>
-          <tr>
-            <td class="step-num-cell"><div class="step-num">4</div></td>
-            <td><p class="step-text"><strong>Offer &amp; Onboarding</strong> — Selected candidates will receive an official offer letter and be onboarded into the KeyOwn Habitat family!</p></td>
-          </tr>
-        </table>
-      </div>
+            await transporter.sendMail({
+                from: `"KeyOwn Habitat HR" <${process.env.GMAIL_USER}>`,
+                to: email,
+                subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
+                html: candidateHTML
+            });
+            console.log(`📧 Emails sent successfully for ${fullName}`);
+        } catch (mailErr) {
+            console.error('⚠️ Nodemailer Sending Error (Check GMAIL_APP_PASSWORD):', mailErr.message);
+        }
 
-      <p class="text">
-        We have included the <strong>Job Description</strong> for the <strong>${role}</strong> role below for your reference. Please go through it carefully before your interview.
-      </p>
+        // Clean up uploaded temp files safely
+        if (resumeFile && resumeFile.path) fs.unlink(resumeFile.path, () => {});
+        if (photoFile && photoFile.path)   fs.unlink(photoFile.path,  () => {});
 
-      <div style="background:#f8f9fa;border-radius:10px;padding:20px 24px;margin:20px 0;border:1px solid #e0e0e0;">
-        <p style="font-size:13px;font-weight:700;color:#006241;text-transform:uppercase;letter-spacing:1px;margin:0 0 14px;">📋 Job Description — ${role}</p>
-        ${buildJDHtml(role)}
-      </div>
-
-      <p class="text">
-        We look forward to potentially having you as part of our mission to transition tenants into homeowners across India. If you have any questions, please don't hesitate to reach out.
-      </p>
-
-      <hr class="divider">
-      <div class="contact-info">
-        <p><strong>KeyOwn Habitat HR Team</strong></p>
-        <p>📧 <a href="mailto:hr@keyownhabitat.com">hr@keyownhabitat.com</a></p>
-        <p>🌐 <a href="https://www.keyownhabitat.com">www.keyownhabitat.com</a></p>
-        <p>📞 +91 98865 35949</p>
-      </div>
-    </div>
-    <div class="footer">
-      © 2025 KeyOwn Habitat. All rights reserved.
-    </div>
-  </div>
-</body>
-</html>`;
-
-        // 1. Send beautifully formatted email to the CANDIDATE
-        await transporter.sendMail({
-            from: `"KeyOwn Habitat HR" <${process.env.GMAIL_USER}>`,
-            to: email,
-            subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
-            html: candidateHTML
-        });
-
-
-        // Clean up uploaded temp files
-        if (resumeFile) fs.unlink(resumeFile.path, () => {});
-        if (photoFile)  fs.unlink(photoFile.path,  () => {});
-
-        res.json({ success: true, message: 'Application submitted! Please check your email for confirmation.' });
+        res.json({ success: true, message: 'Application submitted! Our HR team will review your profile.' });
 
     } catch (error) {
         console.error('Application Error:', error);

@@ -121,40 +121,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // 2. Interactive Rent vs. Asset Calculator
+    // 2. Interactive Your Rent Journey Calculator
     // ==========================================================================
     const rentSlider = document.getElementById('monthly-rent');
-    const periodSlider = document.getElementById('transition-period');
+    const increaseSlider = document.getElementById('annual-increase');
+    const yearsPastSlider = document.getElementById('years-past');
+    const yearsFutureSlider = document.getElementById('years-future');
+
     const rentValDisplay = document.getElementById('rent-value');
-    const periodValDisplay = document.getElementById('period-value');
+    const increaseValDisplay = document.getElementById('increase-value');
+    const yearsPastValDisplay = document.getElementById('years-past-value');
+    const yearsFutureValDisplay = document.getElementById('years-future-value');
 
-    const wastedRentOutput = document.getElementById('wasted-rent');
-    const keyownEquityOutput = document.getElementById('keyown-equity');
-    const netAdvantageOutput = document.getElementById('net-advantage');
+    const rentPaidPastOutput = document.getElementById('rent-paid-past');
+    const currentAnnualRentOutput = document.getElementById('current-annual-rent');
+    const rentProjectedFutureOutput = document.getElementById('rent-projected-future');
+    const totalRentOutflowOutput = document.getElementById('total-rent-outflow');
 
-    if (rentSlider && periodSlider) {
-        function formatCurrency(amount) {
-            const lakhs = amount / 100000;
-            if (lakhs >= 100) {
-                const crores = lakhs / 100;
+    if (rentSlider && increaseSlider && yearsPastSlider && yearsFutureSlider) {
+        function formatLakhs(amount) {
+            if (isNaN(amount) || amount < 0) return '₹0.00 Lakhs';
+            if (amount >= 10000000) {
+                const crores = amount / 10000000;
                 return `₹${crores.toFixed(2)} Cr`;
             }
-            return `₹${lakhs.toFixed(1)} Lakhs`;
+            const lakhs = amount / 100000;
+            return `₹${lakhs.toFixed(2)} Lakhs`;
         }
 
-        function animateNumber(element, start, end, duration, isLakhs = true) {
+        function animateValue(element, start, end, duration = 300) {
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const currentVal = Math.floor(progress * (end - start) + start);
-                
-                if (isLakhs) {
-                    element.innerText = formatCurrency(currentVal);
-                } else {
-                    element.innerText = `₹${currentVal.toLocaleString('en-IN')}`;
-                }
-                
+                element.innerText = formatLakhs(currentVal);
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
                 }
@@ -162,63 +163,70 @@ document.addEventListener('DOMContentLoaded', () => {
             window.requestAnimationFrame(step);
         }
 
-        let lastWasted = 0;
-        let lastEquity = 0;
-        let lastAdvantage = 0;
+        let lastPast = 0;
+        let lastAnnual = 0;
+        let lastFuture = 0;
+        let lastTotal = 0;
 
-        function calculateResults(animate = false) {
-            const initialRent = parseInt(rentSlider.value);
-            const months = parseInt(periodSlider.value);
+        function calculateRentJourney(animate = false) {
+            const monthlyRent = parseFloat(rentSlider.value) || 30000;
+            const annualIncreasePct = parseFloat(increaseSlider.value) || 0;
+            const r = annualIncreasePct / 100;
+            const yPast = parseInt(yearsPastSlider.value) || 1;
+            const yFuture = parseInt(yearsFutureSlider.value) || 1;
 
-            rentValDisplay.innerText = `₹${initialRent.toLocaleString('en-IN')}`;
-            periodValDisplay.innerText = `${months} Months (${Math.round(months / 12)} yrs)`;
+            // Update Input Value Displays
+            rentValDisplay.innerText = `₹${monthlyRent.toLocaleString('en-IN')}`;
+            increaseValDisplay.innerText = `${annualIncreasePct}%`;
+            yearsPastValDisplay.innerText = `${yPast} ${yPast === 1 ? 'Year' : 'Years'}`;
+            yearsFutureValDisplay.innerText = `${yFuture} ${yFuture === 1 ? 'Year' : 'Years'}`;
 
-            // Formula: 10% annual rent escalation rate
-            // Cumulative rent = Sum(Rent0 * (1.10)^floor(m/12))
-            let totalWastedRent = 0;
-            for (let m = 0; m < months; m++) {
-                let y = Math.floor(m / 12);
-                totalWastedRent += initialRent * Math.pow(1.10, y);
+            // 1. Current Annual Rent = Monthly Rent * 12
+            const currentAnnualRent = monthlyRent * 12;
+
+            // 2. Rent Paid So Far = sum of annual rent for "Years Already Paying Rent"
+            // Annual Rent_k = Current Monthly Rent * 12 * (1 + r)^(k - 1)
+            let rentPaidPast = 0;
+            for (let k = 1; k <= yPast; k++) {
+                rentPaidPast += currentAnnualRent * Math.pow(1 + r, k - 1);
             }
 
-            // Formula: 15% co-investment allocation, compounded monthly at 11.2% annual yield
-            let accumulatedEquity = 0;
-            const monthlyYield = 0.112 / 12;
-            for (let m = 0; m < months; m++) {
-                let y = Math.floor(m / 12);
-                let currentMonthlyRent = initialRent * Math.pow(1.10, y);
-                let contribution = currentMonthlyRent * 0.15; // 15% redirected
-                accumulatedEquity = (accumulatedEquity + contribution) * (1 + monthlyYield);
+            // 3. Projected Future Rent = sum of annual rent for future years, continuing from current rental year
+            // Continuing from year yPast + 1 to yPast + yFuture
+            let rentProjectedFuture = 0;
+            for (let k = yPast + 1; k <= yPast + yFuture; k++) {
+                rentProjectedFuture += currentAnnualRent * Math.pow(1 + r, k - 1);
             }
 
-            // High premium multiplier match (e.g. 1.25x for premium strategy plans)
-            let totalHOASAdvantage = accumulatedEquity;
+            // 4. Total Rent Outflow = Rent Paid So Far + Projected Future Rent
+            const totalRentOutflow = rentPaidPast + rentProjectedFuture;
 
             if (animate) {
-                animateNumber(wastedRentOutput, lastWasted, totalWastedRent, 350);
-                animateNumber(keyownEquityOutput, lastEquity, accumulatedEquity, 350);
-                animateNumber(netAdvantageOutput, lastAdvantage, totalHOASAdvantage, 350);
+                animateValue(rentPaidPastOutput, lastPast, rentPaidPast);
+                animateValue(currentAnnualRentOutput, lastAnnual, currentAnnualRent);
+                animateValue(rentProjectedFutureOutput, lastFuture, rentProjectedFuture);
+                animateValue(totalRentOutflowOutput, lastTotal, totalRentOutflow);
             } else {
-                wastedRentOutput.innerText = formatCurrency(totalWastedRent);
-                keyownEquityOutput.innerText = formatCurrency(accumulatedEquity);
-                netAdvantageOutput.innerText = formatCurrency(totalHOASAdvantage);
+                rentPaidPastOutput.innerText = formatLakhs(rentPaidPast);
+                currentAnnualRentOutput.innerText = formatLakhs(currentAnnualRent);
+                rentProjectedFutureOutput.innerText = formatLakhs(rentProjectedFuture);
+                totalRentOutflowOutput.innerText = formatLakhs(totalRentOutflow);
             }
 
-            lastWasted = totalWastedRent;
-            lastEquity = accumulatedEquity;
-            lastAdvantage = totalHOASAdvantage;
+            lastPast = rentPaidPast;
+            lastAnnual = currentAnnualRent;
+            lastFuture = rentProjectedFuture;
+            lastTotal = totalRentOutflow;
         }
 
-        // Event listeners
-        rentSlider.addEventListener('input', () => calculateResults(false));
-        periodSlider.addEventListener('input', () => calculateResults(false));
-        
-        // Final recalculation trigger on slider release for smooth animation transition
-        rentSlider.addEventListener('change', () => calculateResults(true));
-        periodSlider.addEventListener('change', () => calculateResults(true));
+        // Live input listeners
+        [rentSlider, increaseSlider, yearsPastSlider, yearsFutureSlider].forEach(slider => {
+            slider.addEventListener('input', () => calculateRentJourney(false));
+            slider.addEventListener('change', () => calculateRentJourney(true));
+        });
 
         // Initial setup
-        calculateResults(false);
+        calculateRentJourney(false);
     }
 
     // ==========================================================================
@@ -695,69 +703,36 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(section);
     });
 
-    // ---- Testimonials Slider Dots ----
-    const track = document.querySelector('.testimonials-track');
-    const dots = document.querySelectorAll('.slider-dots .dot');
+    // ---- Testimonials Marquee & Dashes ( - - - - - - ) ----
+    const wrapper = document.querySelector('.testimonials-marquee-wrapper');
+    const dashes = document.querySelectorAll('.slider-dashes .dash, .slider-dots .dot');
     
-    if (track && dots.length > 0) {
-        // Update active dot on scroll
-        track.addEventListener('scroll', () => {
-            const scrollLeft = track.scrollLeft;
-            // The cards have width: 85vw. It's best to find exact offsetWidth + gap
-            const firstCard = track.querySelector('.testimonial-card');
-            if (!firstCard) return;
-            const cardWidth = firstCard.offsetWidth + parseFloat(window.getComputedStyle(track).gap || 16);
-            
-            let currentIndex = Math.round(scrollLeft / cardWidth);
-            if (currentIndex > dots.length - 1) currentIndex = dots.length - 1;
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
+    if (wrapper && dashes.length > 0) {
+        // Pause marquee on touch/press so user can easily read the review
+        wrapper.addEventListener('touchstart', () => {
+            wrapper.classList.add('is-paused');
+        }, { passive: true });
+
+        wrapper.addEventListener('touchend', () => {
+            wrapper.classList.remove('is-paused');
+        }, { passive: true });
+
+        // Dash click interaction
+        dashes.forEach((dash, index) => {
+            dash.addEventListener('click', (e) => {
+                e.preventDefault();
+                dashes.forEach((d, i) => d.classList.toggle('active', i === index));
             });
         });
 
-        // Scroll to card on dot click
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                const firstCard = track.querySelector('.testimonial-card');
-                if (!firstCard) return;
-                const cardWidth = firstCard.offsetWidth + parseFloat(window.getComputedStyle(track).gap || 16);
-                track.scrollTo({
-                    left: index * cardWidth,
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Auto-play slideshow for mobile
-        let slideInterval = setInterval(autoSlide, 3000);
-        
-        function autoSlide() {
-            // Only auto-slide if it's in mobile view (dots are visible)
-            if (window.getComputedStyle(document.querySelector('.slider-dots')).display === 'none') return;
-            
-            const firstCard = track.querySelector('.testimonial-card');
-            if (!firstCard) return;
-            const cardWidth = firstCard.offsetWidth + parseFloat(window.getComputedStyle(track).gap || 16);
-            
-            let currentIndex = Math.round(track.scrollLeft / cardWidth);
-            let nextIndex = currentIndex + 1;
-            
-            if (nextIndex >= dots.length) {
-                nextIndex = 0;
+        // Gently cycle the active dash indicator in sync with the flow
+        let dashIndex = 0;
+        const intervalTime = window.innerWidth <= 768 ? 6000 : 7500;
+        setInterval(() => {
+            if (!wrapper.classList.contains('is-paused')) {
+                dashIndex = (dashIndex + 1) % dashes.length;
+                dashes.forEach((d, i) => d.classList.toggle('active', i === dashIndex));
             }
-            
-            track.scrollTo({
-                left: nextIndex * cardWidth,
-                behavior: 'smooth'
-            });
-        }
-        
-        // Pause on touch/interaction
-        track.addEventListener('touchstart', () => clearInterval(slideInterval), {passive: true});
-        track.addEventListener('touchend', () => {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(autoSlide, 3000);
-        }, {passive: true});
+        }, intervalTime);
     }
 });
