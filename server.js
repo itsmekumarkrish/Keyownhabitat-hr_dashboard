@@ -381,32 +381,55 @@ app.post('/api/apply', upload.fields([
             console.error('⚠️ MongoDB Save Error:', dbErr.message);
         }
 
-        // ── 2. SEND HR NOTIFICATION & CANDIDATE CONFIRMATION EMAILS ────────
+        // ── 1. SAVE APPLICATION TO MONGODB ─────────────────────────────────
         try {
-            await transporter.sendMail({
-                from: `"KeyOwn Habitat Careers" <${process.env.GMAIL_USER}>`,
-                to: process.env.GMAIL_USER,
-                subject: `🆕 New Application: ${fullName} — ${role}`,
-                html: hrHTML,
-                attachments: hrAttachments
+            const newApplication = new Application({
+                firstName,
+                lastName,
+                fullName,
+                email,
+                phone,
+                location,
+                role,
+                intro: intro || '',
+                resumeOriginalName: resumeFile ? resumeFile.originalname : '',
+                status: 'Received'
             });
-
-            await transporter.sendMail({
-                from: `"KeyOwn Habitat HR" <${process.env.GMAIL_USER}>`,
-                to: email,
-                subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
-                html: candidateHTML
-            });
-            console.log(`📧 Emails sent successfully for ${fullName}`);
-        } catch (mailErr) {
-            console.error('⚠️ Nodemailer Sending Error (Check GMAIL_APP_PASSWORD):', mailErr.message);
+            await newApplication.save();
+            console.log(`💾 Saved application to MongoDB for ${fullName} (${role})`);
+        } catch (dbErr) {
+            console.error('⚠️ MongoDB Save Error:', dbErr.message);
         }
 
-        // Clean up uploaded temp files safely
-        if (resumeFile && resumeFile.path) fs.unlink(resumeFile.path, () => {});
-        if (photoFile && photoFile.path)   fs.unlink(photoFile.path,  () => {});
-
+        // Return instant response to user immediately (no waiting/hanging!)
         res.json({ success: true, message: 'Application submitted! Our HR team will review your profile.' });
+
+        // ── 2. SEND HR NOTIFICATION & CANDIDATE CONFIRMATION EMAILS IN BACKGROUND ──
+        (async () => {
+            try {
+                await transporter.sendMail({
+                    from: `"KeyOwn Habitat Careers" <${process.env.GMAIL_USER}>`,
+                    to: process.env.GMAIL_USER,
+                    subject: `🆕 New Application: ${fullName} — ${role}`,
+                    html: hrHTML,
+                    attachments: hrAttachments
+                });
+
+                await transporter.sendMail({
+                    from: `"KeyOwn Habitat HR" <${process.env.GMAIL_USER}>`,
+                    to: email,
+                    subject: `✅ Application Received — ${role} | KeyOwn Habitat`,
+                    html: candidateHTML
+                });
+                console.log(`📧 Emails sent successfully for ${fullName}`);
+            } catch (mailErr) {
+                console.error('⚠️ Nodemailer Sending Error (Check GMAIL_APP_PASSWORD):', mailErr.message);
+            } finally {
+                // Clean up uploaded temp files safely
+                if (resumeFile && resumeFile.path) fs.unlink(resumeFile.path, () => {});
+                if (photoFile && photoFile.path)   fs.unlink(photoFile.path,  () => {});
+            }
+        })().catch(() => {});
 
     } catch (error) {
         console.error('Application Error:', error);
@@ -423,27 +446,33 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
             return res.status(400).json({ error: 'Please fill out all required fields.' });
         }
 
-        // 1. Send Alert Email to KeyOwn Team
-        const teamHTML = `
-            <h2>🚨 New Free Assessment Lead!</h2>
-            <p>A new customer has requested a Home Ownership Assessment.</p>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone}</p>
-            <p><strong>Current City:</strong> ${city}</p>
-            <br>
-            <p>Please assign an advisor to call this lead ASAP.</p>
-        `;
+        console.log(`📩 New Assessment Request from ${name} (${city})`);
 
-        await transporter.sendMail({
-            from: `"KeyOwn AutoPilot" <${process.env.GMAIL_USER}>`,
-            to: process.env.GMAIL_USER, // Send to internal team
-            subject: `🚨 NEW LEAD: ${name} from ${city}`,
-            html: teamHTML
-        });
+        // Return instant response to user immediately
+        res.json({ success: true, message: 'Assessment request submitted successfully.' });
 
-        // 2. Send Welcome Email to Customer
-        const customerHTML = `
+        // 1. Send Alert Email to KeyOwn Team & Welcome Email to Customer in background
+        (async () => {
+            try {
+                const teamHTML = `
+                    <h2>🚨 New Free Assessment Lead!</h2>
+                    <p>A new customer has requested a Home Ownership Assessment.</p>
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Phone:</strong> ${phone}</p>
+                    <p><strong>Current City:</strong> ${city}</p>
+                    <br>
+                    <p>Please assign an advisor to call this lead ASAP.</p>
+                `;
+
+                await transporter.sendMail({
+                    from: `"KeyOwn AutoPilot" <${process.env.GMAIL_USER}>`,
+                    to: process.env.GMAIL_USER,
+                    subject: `🚨 NEW LEAD: ${name} from ${city}`,
+                    html: teamHTML
+                });
+
+                const customerHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -467,14 +496,17 @@ app.post('/api/assessment', upload.none(), async (req, res) => {
 </body>
 </html>`;
 
-        await transporter.sendMail({
-            from: `"KeyOwn Habitat" <${process.env.GMAIL_USER}>`,
-            to: email,
-            subject: `Your Free Assessment is Processing! | KeyOwn Habitat`,
-            html: customerHTML
-        });
-
-        res.json({ success: true, message: 'Assessment request submitted successfully.' });
+                await transporter.sendMail({
+                    from: `"KeyOwn Habitat" <${process.env.GMAIL_USER}>`,
+                    to: email,
+                    subject: `Your Free Assessment is Processing! | KeyOwn Habitat`,
+                    html: customerHTML
+                });
+                console.log(`📧 Assessment emails sent for ${name}`);
+            } catch (err) {
+                console.error('⚠️ Assessment email error:', err.message);
+            }
+        })().catch(() => {});
 
     } catch (error) {
         console.error('Assessment Error:', error);
